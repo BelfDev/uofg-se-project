@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class ApplicationWindow extends JFrame {
 
-    private static final int WINDOW_WIDTH = 1000;
-    private static final int WINDOW_HEIGHT = 618;
+    public static final int WINDOW_WIDTH = 1000;
+    public static final int WINDOW_HEIGHT = 618;
 
     public ApplicationWindow() {
         setupWindow();
