@@ -2,10 +2,6 @@ package madstax.model.user.role;
 
 public class RoleFactory {
 
-    public enum RoleType {
-        ADMIN, CLASS_DIRECTOR, PTT_DIRECTOR
-    }
-
     public static Role getRole(RoleType type) {
         switch (type) {
             case ADMIN:
