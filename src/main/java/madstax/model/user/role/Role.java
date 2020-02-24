@@ -20,7 +20,7 @@ public abstract class Role {
     private HashMap<Permission, Boolean> getDefaultPermissions() {
         HashMap<Permission, Boolean> defaultPermissions = new HashMap<>();
         for (Permission permission : Permission.values()) {
-            permissions.put(permission, false);
+            defaultPermissions.put(permission, false);
         }
 
         defaultPermissions.put(VIEW_REQUIREMENT_LIST, true);
