@@ -1,16 +1,19 @@
 package madstax.controller;
 
+import madstax.model.navigation.Navigator;
 import madstax.view.Screen;
 
-public abstract class Controller {
+public abstract class Controller<E extends Screen> {
 
-    protected Screen screen;
+    protected E screen;
+    protected Navigator navigator;
 
-    public Controller(Screen screen) {
+    public Controller(E screen) {
         this.screen = screen;
+        this.navigator = Navigator.getInstance();
     }
 
-    public Screen getScreen() {
+    public E getScreen() {
         return screen;
     }
 
