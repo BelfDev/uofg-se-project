@@ -1,6 +1,6 @@
 package madstax.application;
 
-import madstax.model.navigation.Navigator;
+import madstax.controller.navigation.Navigator;
 import madstax.controller.RoleSelectionController;
 import madstax.view.ApplicationWindow;
 
