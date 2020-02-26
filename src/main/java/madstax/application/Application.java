@@ -1,7 +1,7 @@
 package madstax.application;
 
-import madstax.controller.navigation.Navigator;
 import madstax.controller.RoleSelectionController;
+import madstax.controller.navigation.Navigator;
 import madstax.view.ApplicationWindow;
 
 public class Application implements ApplicationLifeCycle {

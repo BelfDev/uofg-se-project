@@ -1,8 +1,16 @@
 package madstax.model.util;
 
+import com.opencsv.bean.CsvToBeanBuilder;
+
 import javax.swing.*;
-import java.awt.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class ResourceLoader {
 
@@ -13,6 +21,29 @@ public class ResourceLoader {
         String imageRelativePath = String.format("icons/%s.png", imageName);
         URL imageURL = getResourceURL(imageRelativePath);
         return new ImageIcon(imageURL);
+    }
+
+    public static <T> void parseDataFromCSV(String fileName, Class<? extends T> type) {
+        String csvFileRelativePath = String.format("csv/%s.csv", fileName);
+        URL csvURL = getResourceURL(csvFileRelativePath);
+
+        try {
+            Path filePath = Paths.get(csvURL.toURI());
+            Reader reader = Files.newBufferedReader(filePath);
+
+            List<T> objects = new CsvToBeanBuilder<T>(reader)
+                    .withType(type)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build()
+                    .parse();
+
+            for (T object : objects) {
+                System.out.println(object);
+            }
+
+        } catch (URISyntaxException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static URL getResourceURL(String fileName) {
