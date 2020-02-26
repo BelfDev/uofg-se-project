@@ -18,6 +18,7 @@ public class Application implements ApplicationLifeCycle {
     @Override
     public void onAppDidLaunch() {
         navigator.setRoot(new RoleSelectionController());
+        ApplicationRepository.getInstance().prefetchAllData();
     }
 
 }

@@ -74,4 +74,9 @@ public class ApplicationRepository {
         ResourceIO.writeDataToCSV("course-plan", coursePlanListItems, CoursePlanListItem.class);
     }
 
+    public void prefetchAllData() {
+        this.teachers = getTeachers();
+        this.coursePlanListItems = getCoursePlanListItems();
+    }
+
 }
