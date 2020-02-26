@@ -1,6 +1,8 @@
 package madstax.model;
 
-import com.opencsv.bean.*;
+import com.opencsv.bean.CsvBindAndSplitByName;
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
 import madstax.model.util.StatusCSVConverter;
 
 import java.util.ArrayList;
