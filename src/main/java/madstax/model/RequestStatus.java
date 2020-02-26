@@ -12,8 +12,7 @@ public enum RequestStatus {
         this.displayName = displayName;
     }
 
-    @Override
-    public String toString() {
+    public String getDisplayName() {
         return displayName;
     }
 

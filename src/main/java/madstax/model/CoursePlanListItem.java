@@ -1,14 +1,13 @@
 package madstax.model;
 
-import com.opencsv.bean.CsvBindAndSplitByName;
-import com.opencsv.bean.CsvBindByName;
-import com.opencsv.bean.CsvCustomBindByName;
+import com.opencsv.bean.*;
 import madstax.model.util.StatusCSVConverter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class CoursePlanListItem {
+public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
 
     @CsvBindByName
     private int index;
@@ -20,7 +19,7 @@ public class CoursePlanListItem {
     private List<String> requirements;
 
     @CsvBindByName
-    private String teacherId;
+    private int teacherId;
 
     @CsvCustomBindByName(converter = StatusCSVConverter.class)
     private RequestStatus status;
@@ -28,7 +27,7 @@ public class CoursePlanListItem {
     public CoursePlanListItem() {
     }
 
-    public CoursePlanListItem(int index, String course, List<String> requirements, String teacherId, RequestStatus status) {
+    public CoursePlanListItem(int index, String course, List<String> requirements, int teacherId, RequestStatus status) {
         this.index = index;
         this.course = course;
         this.requirements = requirements;
@@ -48,12 +47,32 @@ public class CoursePlanListItem {
         return requirements;
     }
 
-    public String getTeacherId() {
+    public int getTeacherId() {
         return teacherId;
     }
 
     public RequestStatus getStatus() {
         return status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CoursePlanListItem that = (CoursePlanListItem) o;
+        return index == that.index &&
+                course.equals(that.course);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index, course);
+    }
+
+
+    @Override
+    public int compareTo(CoursePlanListItem o) {
+        return Integer.compare(this.getIndex(), o.getIndex());
     }
 
 }

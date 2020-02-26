@@ -1,4 +1,4 @@
-index,course,requirements,teacherId,status
+INDEX,COURSE,REQUIREMENTS,TEACHERID,STATUS
 1,Engineering, "Maths, Physics",,UNASSIGNED
 2,Film History,"Arts",4,AWAITING_APPROVAL
 3,Dancing,"Dancing",2,APPROVED

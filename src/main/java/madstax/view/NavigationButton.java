@@ -1,6 +1,6 @@
 package madstax.view;
 
-import madstax.model.util.ResourceLoader;
+import madstax.model.util.ResourceIO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ class NavigationButton extends JButton {
     public NavigationButton(String iconName, String text) {
         super();
         // Loads the image resource
-        ImageIcon icon = ResourceLoader.getImageIcon(iconName);
+        ImageIcon icon = ResourceIO.getImageIcon(iconName);
         // Scales the image accordingly
         Image scaledImage = icon.getImage().getScaledInstance(DEFAULT_ICON_SIDE, DEFAULT_ICON_SIDE, Image.SCALE_SMOOTH);
         icon.setImage(scaledImage);

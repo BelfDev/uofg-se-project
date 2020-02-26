@@ -2,13 +2,14 @@ package madstax.application;
 
 import madstax.model.CoursePlanListItem;
 import madstax.model.Teacher;
-import madstax.model.util.ResourceLoader;
+import madstax.model.util.ResourceIO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -47,7 +48,7 @@ public class ApplicationRepository {
 
     public List<Teacher> getTeachers() {
         if (teachers.isEmpty()) {
-            teachers = ResourceLoader.parseDataFromCSV("teachers", Teacher.class);
+            teachers = ResourceIO.parseDataFromCSV("teachers", Teacher.class);
         }
         return teachers;
     }
@@ -58,9 +59,19 @@ public class ApplicationRepository {
 
     public List<CoursePlanListItem> getCoursePlanListItems() {
         if (coursePlanListItems.isEmpty()) {
-            coursePlanListItems = ResourceLoader.parseDataFromCSV("course-plan", CoursePlanListItem.class);
+            coursePlanListItems = ResourceIO.parseDataFromCSV("course-plan", CoursePlanListItem.class);
         }
         return coursePlanListItems;
+    }
+
+    public void updateCoursePlanList(List<CoursePlanListItem> newList) {
+        List<CoursePlanListItem> originalList = getCoursePlanListItems();
+        newList.addAll(originalList);
+        coursePlanListItems = newList.stream()
+                .sorted()
+                .distinct()
+                .collect(Collectors.toCollection(ArrayList::new));
+        ResourceIO.writeDataToCSV("course-plan", coursePlanListItems, CoursePlanListItem.class);
     }
 
 }
