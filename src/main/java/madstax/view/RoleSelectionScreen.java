@@ -5,7 +5,7 @@ import madstax.model.user.role.RoleType;
 import javax.swing.*;
 import java.awt.*;
 
-import static madstax.view.ApplicationWindow.WINDOW_WIDTH;
+import static madstax.view.ApplicationWindow.INITIAL_WINDOW_WIDTH;
 
 
 public class RoleSelectionScreen extends Screen {
@@ -38,6 +38,8 @@ public class RoleSelectionScreen extends Screen {
 
     @Override
     void layoutComponents() {
+        setBackground(Color.RED);
+
         // Creates vertical box layout manager
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
@@ -74,7 +76,7 @@ public class RoleSelectionScreen extends Screen {
     private JComboBox<RoleType> createDropdownMenu() {
         JComboBox<RoleType> comboBox = new JComboBox<>();
         comboBox.setAlignmentX(CENTER_ALIGNMENT);
-        Dimension dropdownSize = new Dimension(WINDOW_WIDTH / 4, comboBox.getHeight());
+        Dimension dropdownSize = new Dimension(INITIAL_WINDOW_WIDTH / 4, comboBox.getHeight());
         comboBox.setMaximumSize(dropdownSize);
         return comboBox;
     }

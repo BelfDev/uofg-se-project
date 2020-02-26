@@ -1,4 +1,4 @@
-package madstax.model.navigation;
+package madstax.controller.navigation;
 
 import com.sun.istack.internal.NotNull;
 import madstax.controller.Controller;
@@ -50,14 +50,17 @@ public class Navigator {
 
     public void popController() {
         if (!navigationStack.isEmpty()) {
-            Controller previousController = navigationStack.pop();
-            attachToWindow(previousController);
+            navigationStack.pop().onDetach(window);
+            attachToWindow(navigationStack.peek());
         }
     }
 
     private void attachToWindow(@NotNull Controller controller) {
-        window.add(controller.getScreen());
-        window.setVisible(true);
+        String screenTitle = controller.getScreen().getScreenTitle();
+        boolean isRootScreen = navigationStack.size() == 1;
+        window.updateNavigationBar(screenTitle, isRootScreen);
+        window.attachContent(controller.getScreen());
+        controller.onAttached(window);
     }
 
 }
