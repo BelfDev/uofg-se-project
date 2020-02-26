@@ -8,7 +8,6 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> {
 
     private User user;
 
-
     public CoursePlannerController(User user) {
         super(new CoursePlannerScreen());
         this.user = user;
@@ -18,6 +17,7 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> {
     @Override
     public void onAttached(ApplicationWindow window) {
         super.onAttached(window);
+        window.setNavigationBarSubtitle(user.getRole().getName());
     }
 
 }

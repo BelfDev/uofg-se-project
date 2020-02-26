@@ -9,7 +9,7 @@ import static madstax.model.user.Permission.APPROVE_TEACHING_REQUEST;
 class PTTDirector extends Role {
 
     public PTTDirector() {
-        super("PTTDirector");
+        super("PTT Director");
         HashMap<Permission, Boolean> adminPermissions = new HashMap<Permission, Boolean>() {{
             put(APPROVE_TEACHING_REQUEST, true);
         }};

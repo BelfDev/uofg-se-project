@@ -59,4 +59,8 @@ public class ApplicationWindow extends JFrame {
         navigationBar.setListener(listener);
     }
 
+    public void setNavigationBarSubtitle(String text) {
+        navigationBar.setSubtitleLabelText(text);
+    }
+
 }
