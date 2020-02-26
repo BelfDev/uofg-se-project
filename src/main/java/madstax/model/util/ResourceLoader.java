@@ -23,7 +23,7 @@ public class ResourceLoader {
         return new ImageIcon(imageURL);
     }
 
-    public static <T> void parseDataFromCSV(String fileName, Class<? extends T> type) {
+    public static <T> List<T> parseDataFromCSV(String fileName, Class<? extends T> type) {
         String csvFileRelativePath = String.format("csv/%s.csv", fileName);
         URL csvURL = getResourceURL(csvFileRelativePath);
 
@@ -31,19 +31,16 @@ public class ResourceLoader {
             Path filePath = Paths.get(csvURL.toURI());
             Reader reader = Files.newBufferedReader(filePath);
 
-            List<T> objects = new CsvToBeanBuilder<T>(reader)
+            return new CsvToBeanBuilder<T>(reader)
                     .withType(type)
                     .withIgnoreLeadingWhiteSpace(true)
                     .build()
                     .parse();
 
-            for (T object : objects) {
-                System.out.println(object);
-            }
-
         } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private static URL getResourceURL(String fileName) {
