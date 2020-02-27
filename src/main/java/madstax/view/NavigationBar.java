@@ -54,7 +54,7 @@ public class NavigationBar extends JPanel {
         backButton.setAlignmentX(SwingConstants.LEFT);
         backButton.setVisible(false);
 
-        JLabel titleLabel = new JLabel("Title");
+        JLabel titleLabel = new JLabel();
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         // Sets the screen title label style to BOLD
         Font f = titleLabel.getFont();
