@@ -13,6 +13,7 @@ public class NavigationBar extends JPanel {
     private static final int NAV_BAR_HEIGHT = 44;
     private static final int NUMBER_OF_ITEMS = 3;
     private static final int TITLE_SIZE = 16;
+    private static final int SUBTITLE_SIZE = 12;
 
     protected static final Color NAV_BAR_COLOR = new Color(129, 212, 250);
 
@@ -53,7 +54,7 @@ public class NavigationBar extends JPanel {
         backButton.setAlignmentX(SwingConstants.LEFT);
         backButton.setVisible(false);
 
-        JLabel titleLabel = new JLabel("Role Selection");
+        JLabel titleLabel = new JLabel();
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         // Sets the screen title label style to BOLD
         Font f = titleLabel.getFont();
@@ -71,6 +72,15 @@ public class NavigationBar extends JPanel {
         return (JLabel) navBarSlots.get(1).getComponent(0);
     }
 
+    private JLabel getSubtitleLabel() {
+        JPanel centralSlot = navBarSlots.get(1);
+        JLabel subtitleLabel = null;
+        if (centralSlot.getComponents().length >= 2) {
+            subtitleLabel = (JLabel) centralSlot.getComponent(1);
+        }
+        return subtitleLabel;
+    }
+
     public void setBackButtonVisibility(boolean visible) {
         JButton backButton = getBackButton();
         backButton.setEnabled(visible);
@@ -80,6 +90,22 @@ public class NavigationBar extends JPanel {
     public void setTitleLabelText(String text) {
         JLabel titleLabel = getTitleLabel();
         titleLabel.setText(text);
+    }
+
+    public void setSubtitleLabelText(String text) {
+        JLabel subtitleLabel = getSubtitleLabel();
+        if (text == null && subtitleLabel != null) {
+            navBarSlots.get(1).remove(subtitleLabel);
+        } else if (text != null && subtitleLabel == null) {
+            subtitleLabel = new JLabel(text);
+            subtitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            // Sets the screen subtitle style
+            Font f = subtitleLabel.getFont();
+            subtitleLabel.setFont(new Font(f.getName(), Font.PLAIN, SUBTITLE_SIZE));
+            navBarSlots.get(1).add(subtitleLabel, BorderLayout.SOUTH);
+        } else if (text != null) {
+            subtitleLabel.setText(text);
+        }
     }
 
     public void setListener(NavigationListener listener) {

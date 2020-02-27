@@ -32,6 +32,7 @@ public abstract class Controller<E extends Screen> implements NavigationListener
 
     public void onDetach(ApplicationWindow window) {
         window.setNavigationListener(null);
+        window.setNavigationBarSubtitle(null);
     }
 
     @Override

@@ -10,7 +10,7 @@ import static madstax.view.ApplicationWindow.INITIAL_WINDOW_WIDTH;
 
 public class RoleSelectionScreen extends Screen {
 
-    private static final String ROLE_SCREEN_TITLE = "Role Selection";
+    private static final String ROLE_SELECTION_TITLE = "Role Selection";
     private static final String INSTRUCTION_TEXT = "Please select a role";
     private static final String LOGIN_BUTTON_TITLE = "LOGIN";
     private static final int PREFERRED_BUTTON_WIDTH = 200;
@@ -20,7 +20,7 @@ public class RoleSelectionScreen extends Screen {
     private JComboBox<RoleType> dropdownMenu;
 
     public RoleSelectionScreen() {
-        super(ROLE_SCREEN_TITLE);
+        super(ROLE_SELECTION_TITLE);
     }
 
     public JButton getLoginButton() {
