@@ -1,12 +1,13 @@
 package madstax.view;
 
-import madstax.model.Teacher;
+import madstax.model.util.DropdownModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class EditorToolbar extends JPanel {
+public class EditorToolbar<E> extends JPanel {
 
     private static final int TOOLBAR_HEIGHT = 80;
     private static final int NUMBER_OF_SLOTS = 3;
@@ -15,8 +16,9 @@ public class EditorToolbar extends JPanel {
     private ArrayList<JPanel> slots;
 
     private JLabel courseLabel;
-    private JComboBox<Teacher> decisionDropdown;
+    private JComboBox<E> decisionDropdown;
     private JButton confirmButton;
+    protected Class<? extends E> elementType;
 
     public EditorToolbar() {
         // Sets the toolbar layout
@@ -42,15 +44,44 @@ public class EditorToolbar extends JPanel {
         slots.get(0).add(courseLabel);
         slots.get(1).add(decisionDropdown);
         slots.get(2).add(confirmButton);
+
+        this.setVisible(true);
+    }
+
+    public void setElementType(Class<? extends E> elementType) {
+        this.elementType = elementType;
+    }
+
+    public E getSelectedDropdownItem() {
+        if (decisionDropdown.getSelectedItem() != null) {
+            DropdownModel<E> model = (DropdownModel<E>) decisionDropdown.getModel();
+            return model.getSelectedItem();
+        }
+        return null;
     }
 
     public void setCourseLabelText(String text) {
         courseLabel.setText(text);
     }
 
-    public void setDecisionDropdownData(Teacher[] Teacher) {
-        DefaultComboBoxModel<Teacher> model = new DefaultComboBoxModel<>(Teacher);
+    public void setDecisionDropdownData(E[] data) {
+        DropdownModel<E> model = new DropdownModel<>(data);
         decisionDropdown.setModel(model);
+    }
+
+//    public void setDecisionDropdownData(Teacher[] teachers) {
+//        Teacher[] dropdownData = new Teacher[]{new Teacher(-1, "Select an Option", null)};
+//        Teacher[] newArray = ArrayUtils.addAll(dropdownData, teachers);
+//        TeacherDropdownModel model = new TeacherDropdownModel(newArray);
+//        decisionDropdown.setModel(model);
+//    }
+
+    public void setConfirmButtonListener(ActionListener listener) {
+        confirmButton.addActionListener(listener);
+    }
+
+    public void setConfirmButtonTitle(String title) {
+        this.confirmButton.setText(title);
     }
 
     private void createToolbarSlots() {
