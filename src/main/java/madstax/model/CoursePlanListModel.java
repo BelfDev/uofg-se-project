@@ -12,12 +12,13 @@ public class CoursePlanListModel extends AbstractTableModel {
     private List<Field> headers;
     private Object[][] data;
 
-    public CoursePlanListModel(List<CoursePlanListItem> rows) {
+    public CoursePlanListModel(Object[][] data) {
         this.headers = Arrays.stream(CoursePlanListItem.class.getDeclaredFields())
                 .collect(Collectors.toCollection(ArrayList::new));
-        this.data = rows.stream()
-                .map(CoursePlanListItem::toArray)
-                .toArray(Object[][]::new);
+        this.data = data;
+//        this.data = rows.stream()
+//                .map(CoursePlanListItem::toArray)
+//                .toArray(Object[][]::new);
     }
 
     @Override
@@ -37,6 +38,9 @@ public class CoursePlanListModel extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
+        if (column == 3) {
+            return "TEACHER NAME";
+        }
         return headers.get(column).getName().toUpperCase();
     }
 
@@ -53,4 +57,9 @@ public class CoursePlanListModel extends AbstractTableModel {
         return getValueAt(0, columnIndex).getClass();
     }
 
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        data[rowIndex][columnIndex] = aValue;
+        fireTableCellUpdated(rowIndex, columnIndex);
+    }
 }
