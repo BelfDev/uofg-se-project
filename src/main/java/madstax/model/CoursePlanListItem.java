@@ -57,6 +57,18 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
         return status;
     }
 
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public void setRequirements(List<String> requirements) {
+        this.requirements = requirements;
+    }
+
+    public void setStatus(RequestStatus status) {
+        this.status = status;
+    }
+
     public Object[] toArray() {
         List<Object> content = new ArrayList<Object>() {{
             add(getIndex());
