@@ -57,6 +57,17 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
         return status;
     }
 
+    public Object[] toArray() {
+        List<Object> content = new ArrayList<Object>() {{
+            add(getIndex());
+            add(getCourse());
+            add(getRequirements());
+            add(getTeacherId());
+            add(getStatus());
+        }};
+        return content.toArray(new Object[0]);
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
