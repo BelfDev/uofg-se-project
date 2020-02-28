@@ -14,7 +14,7 @@ public class Teacher {
     @CsvBindByName
     private String name;
 
-    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class)
+    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class, splitOn = ",")
     private List<String> qualifications;
 
     public Teacher() {
@@ -38,4 +38,8 @@ public class Teacher {
         return qualifications;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

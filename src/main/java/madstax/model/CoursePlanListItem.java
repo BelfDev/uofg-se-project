@@ -17,7 +17,7 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
     @CsvBindByName
     private String course;
 
-    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class)
+    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class, splitOn = ",")
     private List<String> requirements;
 
     @CsvBindByName
@@ -67,7 +67,7 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
         }};
         return content.toArray(new Object[0]);
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
