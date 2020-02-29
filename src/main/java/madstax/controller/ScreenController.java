@@ -1,42 +1,43 @@
 package madstax.controller;
 
 import madstax.controller.navigation.NavigationBarListener;
-import madstax.controller.navigation.Navigator;
+import madstax.controller.navigation.NavigationController;
 import madstax.view.ApplicationWindow;
+import madstax.view.NavigationBar;
 import madstax.view.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class Controller<E extends Screen> implements NavigationBarListener {
+public abstract class ScreenController<T extends Screen> implements NavigationBarListener {
 
-    protected E screen;
-    protected Navigator navigator;
+    protected T screen;
+    protected NavigationController navigationController;
+    protected NavigationBar navBar;
 
     private Timer alphaAnimator;
 
-    public Controller(E screen) {
+    public ScreenController(T screen) {
         this.screen = screen;
-        this.navigator = Navigator.getInstance();
+        this.navigationController = NavigationController.getInstance();
+        this.navBar = navigationController.getAppWindow().getNavigationBar();
     }
 
-    public E getScreen() {
+    public T getScreen() {
         return screen;
     }
 
-    public void onAttached(ApplicationWindow window) {
-        window.setNavigationListener(this);
+    public void onAttached() {
         animateFadeIn();
     }
 
-    public void onDetach(ApplicationWindow window) {
-        window.clearNavigationBar();
+    public void onDetach() {
     }
 
     @Override
     public void onBackButtonClicked() {
         System.out.println("Back Button Was Clicked from " + screen.getScreenTitle());
-        navigator.popController();
+        navigationController.popController();
     }
 
     @Override

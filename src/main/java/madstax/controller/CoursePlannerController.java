@@ -7,7 +7,6 @@ import madstax.model.RequestStatus;
 import madstax.model.Teacher;
 import madstax.model.user.Permission;
 import madstax.model.user.User;
-import madstax.view.ApplicationWindow;
 import madstax.view.CoursePlannerScreen;
 import madstax.view.EditorToolbar;
 import madstax.view.ModalEditor;
@@ -23,7 +22,7 @@ import java.util.Map;
 import static madstax.model.user.Permission.*;
 
 // TODO: Refactor to account for different interfaces
-public class CoursePlannerController extends Controller<CoursePlannerScreen> implements ListSelectionListener, ModalEditorListener {
+public class CoursePlannerController extends ScreenController<CoursePlannerScreen> implements ListSelectionListener, ModalEditorListener {
 
     private static final String[] TABLE_HEADER = {"INDEX", "COURSE", "REQUIREMENTS", "TEACHER NAME", "STATUS"};
 
@@ -60,11 +59,10 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> imp
     }
 
     @Override
-    public void onAttached(ApplicationWindow window) {
+    public void onAttached() {
         String subtitle = user.getRole().getName();
-        window.setNavigationBarSubtitle(subtitle);
-        window.setNavigationBarRightButtonTitle("EDIT");
-
+        navBar.createSubtitleItem(subtitle);
+        navBar.createRightButtonItem("EDIT");
 
         loadData();
 
@@ -110,7 +108,7 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> imp
             }
         });
 
-        super.onAttached(window);
+        super.onAttached();
     }
 
     private void loadData() {
@@ -160,6 +158,7 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> imp
 
     @Override
     public void onRightNavigationButtonClicked() {
+        navBar.setRightButtonText("SAVE");
         System.out.println("Clicked");
     }
 }

@@ -3,6 +3,7 @@ package madstax.controller.navigation;
 import com.sun.istack.internal.NotNull;
 import madstax.controller.Controller;
 import madstax.view.ApplicationWindow;
+import madstax.view.NavigationBar;
 
 import java.util.Stack;
 
@@ -58,7 +59,11 @@ public class Navigator {
     private void attachToWindow(@NotNull Controller controller) {
         String screenTitle = controller.getScreen().getScreenTitle();
         boolean isRootScreen = navigationStack.size() == 1;
-        window.updateNavigationBar(screenTitle, isRootScreen);
+        // Updates the navigation bar
+        NavigationBar navBar = window.getNavigationBar();
+        navBar.setTitleLabelText(screenTitle);
+        navBar.setBackButtonVisibility(!isRootScreen);
+        // Attaches the content to the window
         window.attachContent(controller.getScreen());
         controller.onAttached(window);
     }

@@ -1,7 +1,5 @@
 package madstax.view;
 
-import madstax.controller.navigation.NavigationBarListener;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -47,28 +45,8 @@ public class ApplicationWindow extends JFrame {
         repaint();
     }
 
-    public void updateNavigationBar(String screenTitle, boolean isRootScreen) {
-        navigationBar.setTitleLabelText(screenTitle);
-        navigationBar.setBackButtonVisibility(!isRootScreen);
-        revalidate();
-        repaint();
-    }
-
-    public void setNavigationListener(NavigationBarListener listener) {
-        navigationBar.setListener(listener);
-    }
-
-    public void setNavigationBarSubtitle(String text) {
-        navigationBar.addSubtitleItem(text);
-    }
-
-    public void setNavigationBarRightButtonTitle(String title) {
-        navigationBar.addRightButtonItem(title);
-    }
-
-    public void clearNavigationBar() {
-        navigationBar.setListener(null);
-        navigationBar.removeBarItems();
+    public NavigationBar getNavigationBar() {
+        return navigationBar;
     }
 
 }

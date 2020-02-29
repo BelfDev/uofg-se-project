@@ -108,7 +108,7 @@ public class NavigationBar extends JPanel {
         }
     }
 
-    public void addSubtitleItem(@NotNull String text) {
+    public void createSubtitleItem(@NotNull String text) {
         JLabel subtitleLabel = getSubtitleLabel();
         if (subtitleLabel != null) {
             subtitleLabel.setText(text);
@@ -122,7 +122,7 @@ public class NavigationBar extends JPanel {
         navBarSlots.get(1).add(subtitleLabel, BorderLayout.SOUTH);
     }
 
-    public void addRightButtonItem(@NotNull String title) {
+    public void createRightButtonItem(@NotNull String title) {
         JButton rightButton = getRightButton();
         if (rightButton != null) {
             rightButton.setText(title);

@@ -6,10 +6,9 @@ import madstax.model.user.role.RoleFactory;
 import madstax.model.user.role.RoleType;
 import madstax.view.RoleSelectionScreen;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RoleSelectionController extends Controller<RoleSelectionScreen> {
+public class RoleSelectionController extends ScreenController<RoleSelectionScreen> {
 
     private User user;
 
@@ -31,7 +30,7 @@ public class RoleSelectionController extends Controller<RoleSelectionScreen> {
     private ActionListener onLoginButtonClick() {
         return actionEvent -> {
             user.setRole(getSelectedRow());
-            navigator.pushController(new CoursePlannerController(user));
+            navigationController.pushController(new CoursePlannerController(user));
         };
     }
 
