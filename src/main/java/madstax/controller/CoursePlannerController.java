@@ -13,11 +13,10 @@ import madstax.view.ModalEditor;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import static madstax.model.user.Permission.*;
 
@@ -31,7 +30,7 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     private User user;
     private ApplicationRepository repo;
-    private HashMap<Permission, Boolean> userPermissions;
+    private TreeSet<Permission> userPermissions;
 
     private List<Teacher> teachers;
     private List<CoursePlanListItem> list;
@@ -52,15 +51,15 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     // TODO: Change permissions to a TreeSet
     private void processPermissions() {
-        if (userPermissions.get(ASSIGN_STAFF)) {
-            screen.setEditorToolbarType(Teacher.class);
-        } else if (userPermissions.get(APPROVE_TEACHING_REQUEST)) {
-            screen.setEditorToolbarType(RequestStatus.class);
-        } else if (userPermissions.get(ADD_REQUIREMENT)) {
-            this.modalEditor = screen.getModalEditor();
-            screen.setEditorToolbarType(null); // Temporary
+        if (userPermissions.contains(ASSIGN_STAFF) || userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
+            editorToolbar = new EditorToolbar.Builder()
+                    .withDropdown().build();
+        } else if (userPermissions.contains(ADD_REQUIREMENT)) {
+            editorToolbar = new EditorToolbar.Builder().build();
+            modalEditor = new ModalEditor();
             modalEditor.setListener(this);
         }
+        screen.addEditorToolbar(editorToolbar);
     }
 
     @Override
@@ -85,33 +84,33 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
         CoursePlanListModel model = new CoursePlanListModel(data);
 
         screen.setTableModel(model, this);
-
-        screen.setConfirmButtonListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int row = screen.getSelectedRow();
-                CoursePlanListItem editedItem = list.get(row);
-
-                if (userPermissions.get(ASSIGN_STAFF)) {
-                    Teacher selectedTeacher = (Teacher) screen.getSelectedDropdownValue();
-                    if (selectedTeacher != null) {
-                        editedItem.setTeacherId(selectedTeacher.getId());
-                        screen.updateAssignedTeacher(selectedTeacher.getName());
-                    }
-                } else if (userPermissions.get(APPROVE_TEACHING_REQUEST)) {
-                    RequestStatus selectedStatus = (RequestStatus) screen.getSelectedDropdownValue();
-                    if (selectedStatus != null) {
-                        editedItem.setStatus(selectedStatus);
-                        screen.updateStatus(selectedStatus);
-                    }
-                } else if (userPermissions.get(ADD_REQUIREMENT)) {
-                    CoursePlanListItem item = list.get(row);
-                    screen.showModalEditor(item.getRequirements());
-                }
-            }
-        });
+        editorToolbar.setConfirmButtonListener(onConfirmButtonClick());
 
         super.onAttached();
+    }
+
+    private ActionListener onConfirmButtonClick() {
+        return e -> {
+            int row = screen.getSelectedRow();
+            CoursePlanListItem editedItem = list.get(row);
+            if (userPermissions.contains(ADD_REQUIREMENT)) {
+                CoursePlanListItem item = list.get(row);
+                modalEditor.setRequirements(item.getRequirements());
+                modalEditor.setVisible(true);
+            } else if (userPermissions.contains(ASSIGN_STAFF)) {
+                Teacher selectedTeacher = (Teacher) editorToolbar.getSelectedDropdownItem();
+                if (selectedTeacher != null) {
+                    editedItem.setTeacherId(selectedTeacher.getId());
+                    screen.updateAssignedTeacher(selectedTeacher.getName());
+                }
+            } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
+                RequestStatus selectedStatus = (RequestStatus) editorToolbar.getSelectedDropdownItem();
+                if (selectedStatus != null) {
+                    editedItem.setStatus(selectedStatus);
+                    screen.updateRequestStatus(selectedStatus);
+                }
+            }
+        };
     }
 
     private void loadData() {
@@ -128,32 +127,26 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        e.getValueIsAdjusting();
         if (!e.getValueIsAdjusting()) {
             // If the user has selected the table manually
             if (!isEditModeEnabled) {
                 // Update edit mode flag and navigation bar right button text
                 isEditModeEnabled = true;
+                editorToolbar.activate();
                 navBar.setRightButtonText(SAVE_BUTTON_TITLE);
             }
 
             int row = screen.getSelectedRow();
             CoursePlanListItem item = list.get(row);
-            if (userPermissions.get(ASSIGN_STAFF)) {
+            editorToolbar.setCourseLabelText(item.getCourse());
+            Object[] data = null;
 
-                EditorToolbar<Teacher> toolbar = screen.getEditorToolbar();
-                toolbar.setCourseLabelText(item.getCourse());
-                Teacher[] suitableTeachers = filterSuitableTeachers(item.getRequirements());
-                toolbar.setDecisionDropdownData(suitableTeachers);
-
-            } else if (userPermissions.get(APPROVE_TEACHING_REQUEST)) {
-
-                EditorToolbar<RequestStatus> toolbar = screen.getEditorToolbar();
-                toolbar.setCourseLabelText(item.getCourse());
-                RequestStatus[] decisions = new RequestStatus[]{RequestStatus.UNASSIGNED, RequestStatus.APPROVED, RequestStatus.DENIED};
-                toolbar.setDecisionDropdownData(decisions);
-
+            if (userPermissions.contains(ASSIGN_STAFF)) {
+                data = filterSuitableTeachers(item.getRequirements());
+            } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
+                data = new RequestStatus[]{RequestStatus.UNASSIGNED, RequestStatus.APPROVED, RequestStatus.DENIED};
             }
+            editorToolbar.setDropdownData(data);
         }
     }
 
@@ -177,10 +170,12 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
             Runnable r = () -> repo.updateCoursePlanList(list);
             new Thread(r).start();
 
+            editorToolbar.deactivate();
             isEditModeEnabled = false;
         } else {
             // User is activating the EDIT mode
             screen.selectFirstRow();
+            editorToolbar.activate();
             isEditModeEnabled = true;
         }
 
