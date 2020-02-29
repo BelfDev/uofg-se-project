@@ -61,7 +61,7 @@ public class ModalEditor extends JDialog {
         // Components
         JLabel instructionLabel = new JLabel("Add a new requirement");
         instructionLabel.setVerticalAlignment(JLabel.CENTER);
-        saveButton = new JButton("SAVE");
+        saveButton = new JButton("DONE");
         saveButton.setVerticalAlignment(JButton.CENTER);
         saveButton.addActionListener(e -> listener.onSavedRequirements(getAllElementsFromList()));
 
