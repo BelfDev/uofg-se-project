@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoursePlannerScreen extends Screen {
@@ -25,6 +26,16 @@ public class CoursePlannerScreen extends Screen {
     @Override
     void layoutComponents() {
         setLayout(new BorderLayout());
+
+        table = new JTable();
+        JScrollPane scrollablePane = new JScrollPane(table);
+
+        table.setDefaultRenderer(ArrayList.class, new PlannerCellRenderer());
+        table.setDefaultRenderer(Integer.class, new PlannerCellRenderer());
+        table.setDefaultRenderer(RequestStatus.class, new PlannerCellRenderer());
+        table.setDefaultRenderer(String.class, new PlannerCellRenderer());
+
+        add(scrollablePane, BorderLayout.CENTER);
     }
 
     public <E> void setEditorToolbarType(Class<? extends E> elementType) {
@@ -52,15 +63,12 @@ public class CoursePlannerScreen extends Screen {
     }
 
     public void setTableModel(CoursePlanListModel model, ListSelectionListener selectionListener) {
-        cleanPreviousTable();
-        table = new JTable(model);
-        JScrollPane scrollablePane = new JScrollPane(table);
-
+        table.setModel(model);
         ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         selectionModel.addListSelectionListener(selectionListener);
-
-        add(scrollablePane, BorderLayout.CENTER);
+        table.revalidate();
+        table.repaint();
     }
 
     public void updateAssignedTeacher(String teacherName) {
@@ -98,12 +106,6 @@ public class CoursePlannerScreen extends Screen {
 
     public Object getSelectedDropdownValue() {
         return editorToolbar.getSelectedDropdownItem();
-    }
-
-    private void cleanPreviousTable() {
-        if (getComponents().length > 0 && getComponent(0) instanceof JScrollPane) {
-            remove(0);
-        }
     }
 
 }

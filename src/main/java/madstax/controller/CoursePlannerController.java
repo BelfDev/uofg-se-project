@@ -26,6 +26,9 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     private static final String[] TABLE_HEADER = {"INDEX", "COURSE", "REQUIREMENTS", "TEACHER NAME", "STATUS"};
 
+    private static final String EDIT_BUTTON_TITLE = "EDIT";
+    private static final String SAVE_BUTTON_TITLE = "SAVE";
+
     private User user;
     private ApplicationRepository repo;
     private HashMap<Permission, Boolean> userPermissions;
@@ -64,7 +67,7 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
     public void onAttached() {
         String subtitle = user.getRole().getName();
         navBar.createSubtitleItem(subtitle);
-        navBar.createRightButtonItem("EDIT");
+        navBar.createRightButtonItem(EDIT_BUTTON_TITLE);
 
         loadData();
 
@@ -131,7 +134,7 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
             if (!isEditModeEnabled) {
                 // Update edit mode flag and navigation bar right button text
                 isEditModeEnabled = true;
-                navBar.setRightButtonText("SAVE");
+                navBar.setRightButtonText(SAVE_BUTTON_TITLE);
             }
 
             int row = screen.getSelectedRow();
@@ -165,7 +168,7 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     @Override
     public void onRightNavigationButtonClicked() {
-        navBar.setRightButtonText(isEditModeEnabled ? "EDIT" : "SAVE");
+        navBar.setRightButtonText(isEditModeEnabled ? EDIT_BUTTON_TITLE : SAVE_BUTTON_TITLE);
         if (isEditModeEnabled) {
             // User is currently in the EDIT mode
             // The next action is to SAVE the changes
