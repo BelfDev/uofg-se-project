@@ -61,9 +61,10 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> imp
 
     @Override
     public void onAttached(ApplicationWindow window) {
-        super.onAttached(window);
         String subtitle = user.getRole().getName();
         window.setNavigationBarSubtitle(subtitle);
+        window.setNavigationBarRightButtonTitle("EDIT");
+
 
         loadData();
 
@@ -109,6 +110,7 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> imp
             }
         });
 
+        super.onAttached(window);
     }
 
     private void loadData() {
@@ -156,4 +158,8 @@ public class CoursePlannerController extends Controller<CoursePlannerScreen> imp
         modalEditor.setVisible(false);
     }
 
+    @Override
+    public void onRightNavigationButtonClicked() {
+        System.out.println("Clicked");
+    }
 }

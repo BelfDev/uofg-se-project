@@ -1,10 +1,9 @@
 package madstax.view;
 
-import madstax.controller.navigation.NavigationListener;
+import madstax.controller.navigation.NavigationBarListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class ApplicationWindow extends JFrame {
 
@@ -55,12 +54,21 @@ public class ApplicationWindow extends JFrame {
         repaint();
     }
 
-    public void setNavigationListener(NavigationListener listener) {
+    public void setNavigationListener(NavigationBarListener listener) {
         navigationBar.setListener(listener);
     }
 
     public void setNavigationBarSubtitle(String text) {
-        navigationBar.setSubtitleLabelText(text);
+        navigationBar.addSubtitleItem(text);
+    }
+
+    public void setNavigationBarRightButtonTitle(String title) {
+        navigationBar.addRightButtonItem(title);
+    }
+
+    public void clearNavigationBar() {
+        navigationBar.setListener(null);
+        navigationBar.removeBarItems();
     }
 
 }

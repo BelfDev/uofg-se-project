@@ -1,15 +1,14 @@
 package madstax.controller;
 
-import madstax.controller.navigation.NavigationListener;
+import madstax.controller.navigation.NavigationBarListener;
 import madstax.controller.navigation.Navigator;
 import madstax.view.ApplicationWindow;
 import madstax.view.Screen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
-public abstract class Controller<E extends Screen> implements NavigationListener {
+public abstract class Controller<E extends Screen> implements NavigationBarListener {
 
     protected E screen;
     protected Navigator navigator;
@@ -31,14 +30,17 @@ public abstract class Controller<E extends Screen> implements NavigationListener
     }
 
     public void onDetach(ApplicationWindow window) {
-        window.setNavigationListener(null);
-        window.setNavigationBarSubtitle(null);
+        window.clearNavigationBar();
     }
 
     @Override
-    public void onBackButtonClicked(ActionEvent e) {
+    public void onBackButtonClicked() {
         System.out.println("Back Button Was Clicked from " + screen.getScreenTitle());
         navigator.popController();
+    }
+
+    @Override
+    public void onRightNavigationButtonClicked() {
     }
 
     private void animateFadeIn() {
