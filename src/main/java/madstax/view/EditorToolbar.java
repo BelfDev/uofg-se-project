@@ -12,13 +12,14 @@ public class EditorToolbar<E> extends JPanel {
     private static final int TOOLBAR_HEIGHT = 80;
     private static final int NUMBER_OF_SLOTS = 3;
     private static final String CONFIRM_BUTTON_TITLE = "CONFIRM";
+    private static final String INSTRUCTION_TEXT = "Activate the EDIT mode to start editing";
 
     private ArrayList<JPanel> slots;
 
     private JLabel instructionLabel;
     private JLabel courseLabel;
     private JComboBox<E> dropdown;
-    private JButton confirmButton;
+    private JButton actionButton;
     protected Class<? extends E> elementType;
 
     private EditorToolbar() {
@@ -34,20 +35,20 @@ public class EditorToolbar<E> extends JPanel {
         createToolbarSlots();
 
         // Creates the toolbar components
-        instructionLabel = new JLabel("Activate EDIT MODE to start editing");
+        instructionLabel = new JLabel(INSTRUCTION_TEXT);
 
         courseLabel = new JLabel();
         courseLabel.setVisible(false);
 
-        confirmButton = new JButton(CONFIRM_BUTTON_TITLE);
-        confirmButton.setPreferredSize(new Dimension(100, 40));
-        confirmButton.setAlignmentY(SwingUtilities.CENTER);
-        confirmButton.setVisible(false);
+        actionButton = new JButton(CONFIRM_BUTTON_TITLE);
+        actionButton.setPreferredSize(new Dimension(100, 40));
+        actionButton.setAlignmentY(SwingUtilities.CENTER);
+        actionButton.setVisible(false);
 
         // Adds the components to the slots
         slots.get(0).add(courseLabel);
         slots.get(1).add(instructionLabel);
-        slots.get(2).add(confirmButton);
+        slots.get(2).add(actionButton);
 
         this.setVisible(true);
     }
@@ -87,17 +88,17 @@ public class EditorToolbar<E> extends JPanel {
 //    }
 
     public void setConfirmButtonListener(ActionListener listener) {
-        confirmButton.addActionListener(listener);
+        actionButton.addActionListener(listener);
     }
 
-    public void setConfirmButtonTitle(String title) {
-        this.confirmButton.setText(title);
+    public void setConfirmButtonText(String title) {
+        this.actionButton.setText(title);
     }
 
     public void activate() {
         slots.get(1).remove(instructionLabel);
         courseLabel.setVisible(true);
-        confirmButton.setVisible(true);
+        actionButton.setVisible(true);
 
         if (dropdown != null) {
             slots.get(1).add(dropdown);
@@ -113,7 +114,7 @@ public class EditorToolbar<E> extends JPanel {
         }
         slots.get(1).add(instructionLabel);
         courseLabel.setVisible(false);
-        confirmButton.setVisible(false);
+        actionButton.setVisible(false);
         revalidate();
         repaint();
     }
@@ -130,6 +131,7 @@ public class EditorToolbar<E> extends JPanel {
     public static class Builder {
 
         private JComboBox dropdown;
+        private String actionButtonTitle;
 
         public Builder withDropdown() {
             if (dropdown == null) {
@@ -138,9 +140,21 @@ public class EditorToolbar<E> extends JPanel {
             return this;
         }
 
+        public Builder actionButtonText(String text) {
+            actionButtonTitle = text;
+            return this;
+        }
+
         public EditorToolbar build() {
             EditorToolbar toolbar = new EditorToolbar();
             toolbar.dropdown = this.dropdown;
+
+            if (actionButtonTitle != null) {
+                JButton actionButton = toolbar.actionButton;
+                actionButton.setText(actionButtonTitle);
+                actionButton.setPreferredSize(new Dimension(156, 40));
+            }
+
             return toolbar;
         }
     }

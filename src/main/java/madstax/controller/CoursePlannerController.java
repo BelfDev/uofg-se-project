@@ -55,7 +55,9 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
             editorToolbar = new EditorToolbar.Builder()
                     .withDropdown().build();
         } else if (userPermissions.contains(ADD_REQUIREMENT)) {
-            editorToolbar = new EditorToolbar.Builder().build();
+            editorToolbar = new EditorToolbar.Builder()
+                    .actionButtonText("EDIT REQUIREMENTS")
+                    .build();
             modalEditor = new ModalEditor();
             modalEditor.setListener(this);
         }
@@ -130,23 +132,22 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
         if (!e.getValueIsAdjusting()) {
             // If the user has selected the table manually
             if (!isEditModeEnabled) {
-                // Update edit mode flag and navigation bar right button text
-                isEditModeEnabled = true;
-                editorToolbar.activate();
-                navBar.setRightButtonText(SAVE_BUTTON_TITLE);
+                activateEditMode(false);
             }
 
             int row = screen.getSelectedRow();
             CoursePlanListItem item = list.get(row);
             editorToolbar.setCourseLabelText(item.getCourse());
-            Object[] data = null;
 
-            if (userPermissions.contains(ASSIGN_STAFF)) {
-                data = filterSuitableTeachers(item.getRequirements());
-            } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
-                data = new RequestStatus[]{RequestStatus.UNASSIGNED, RequestStatus.APPROVED, RequestStatus.DENIED};
+            if (!userPermissions.contains(ADD_REQUIREMENT)) {
+                Object[] data = null;
+                if (userPermissions.contains(ASSIGN_STAFF)) {
+                    data = filterSuitableTeachers(item.getRequirements());
+                } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
+                    data = new RequestStatus[]{RequestStatus.UNASSIGNED, RequestStatus.APPROVED, RequestStatus.DENIED};
+                }
+                editorToolbar.setDropdownData(data);
             }
-            editorToolbar.setDropdownData(data);
         }
     }
 
@@ -174,10 +175,16 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
             isEditModeEnabled = false;
         } else {
             // User is activating the EDIT mode
-            screen.selectFirstRow();
-            editorToolbar.activate();
-            isEditModeEnabled = true;
+            activateEditMode(true);
         }
+    }
 
+    private void activateEditMode(boolean selectFirst) {
+        if (selectFirst) {
+            screen.selectFirstRow();
+        }
+        editorToolbar.activate();
+        navBar.setRightButtonText(SAVE_BUTTON_TITLE);
+        isEditModeEnabled = true;
     }
 }
