@@ -78,6 +78,11 @@ public class CoursePlannerScreen extends Screen {
         table.setValueAt(requestStatus, selectedRow, 4);
     }
 
+    public void selectFirstRow() {
+        table.requestFocus();
+        table.changeSelection(0, 0, false, false);
+    }
+
     public int getSelectedRow() {
         return table.getSelectedRow();
     }

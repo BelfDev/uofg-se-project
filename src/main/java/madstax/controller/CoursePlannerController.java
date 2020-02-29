@@ -36,12 +36,14 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
     private EditorToolbar editorToolbar;
     private ModalEditor modalEditor;
 
+    private boolean isEditModeEnabled;
+
     public CoursePlannerController(User user) {
         super(new CoursePlannerScreen());
         this.user = user;
         this.userPermissions = user.getRole().getPermissions();
         this.repo = ApplicationRepository.getInstance();
-
+        this.isEditModeEnabled = false;
         processPermissions();
     }
 
@@ -103,8 +105,6 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
                     CoursePlanListItem item = list.get(row);
                     screen.showModalEditor(item.getRequirements());
                 }
-
-//                repo.updateCoursePlanList(list);
             }
         });
 
@@ -127,6 +127,13 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
     public void valueChanged(ListSelectionEvent e) {
         e.getValueIsAdjusting();
         if (!e.getValueIsAdjusting()) {
+            // If the user has selected the table manually
+            if (!isEditModeEnabled) {
+                // Update edit mode flag and navigation bar right button text
+                isEditModeEnabled = true;
+                navBar.setRightButtonText("SAVE");
+            }
+
             int row = screen.getSelectedRow();
             CoursePlanListItem item = list.get(row);
             if (userPermissions.get(ASSIGN_STAFF)) {
@@ -158,7 +165,21 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     @Override
     public void onRightNavigationButtonClicked() {
-        navBar.setRightButtonText("SAVE");
-        System.out.println("Clicked");
+        navBar.setRightButtonText(isEditModeEnabled ? "EDIT" : "SAVE");
+        if (isEditModeEnabled) {
+            // User is currently in the EDIT mode
+            // The next action is to SAVE the changes
+
+            // Update the repo asynchronously
+            Runnable r = () -> repo.updateCoursePlanList(list);
+            new Thread(r).start();
+
+            isEditModeEnabled = false;
+        } else {
+            // User is activating the EDIT mode
+            screen.selectFirstRow();
+            isEditModeEnabled = true;
+        }
+
     }
 }

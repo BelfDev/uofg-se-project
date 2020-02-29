@@ -46,9 +46,6 @@ public class CoursePlanListModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if (columnIndex == 0) {
-            return true;
-        }
         return super.isCellEditable(rowIndex, columnIndex);
     }
 

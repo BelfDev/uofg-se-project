@@ -66,12 +66,14 @@ public class ApplicationRepository {
 
     public void updateCoursePlanList(List<CoursePlanListItem> newList) {
         List<CoursePlanListItem> originalList = getCoursePlanListItems();
-        newList.addAll(originalList);
-        coursePlanListItems = newList.stream()
-                .sorted()
-                .distinct()
-                .collect(Collectors.toCollection(ArrayList::new));
-        ResourceIO.writeDataToCSV("course-plan", coursePlanListItems, CoursePlanListItem.class);
+        if (!newList.isEmpty()) {
+            newList.addAll(originalList);
+            coursePlanListItems = newList.stream()
+                    .sorted()
+                    .distinct()
+                    .collect(Collectors.toCollection(ArrayList::new));
+            ResourceIO.writeDataToCSV("course-plan", coursePlanListItems, CoursePlanListItem.class);
+        }
     }
 
     public void prefetchAllData() {
