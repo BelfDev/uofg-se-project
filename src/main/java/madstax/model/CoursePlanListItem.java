@@ -17,7 +17,7 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
     @CsvBindByName
     private String course;
 
-    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class, splitOn = ",")
+    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class, splitOn = ",", writeDelimiter = ",")
     private List<String> requirements;
 
     @CsvBindByName
