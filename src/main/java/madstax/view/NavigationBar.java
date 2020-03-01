@@ -1,6 +1,5 @@
 package madstax.view;
 
-import com.sun.istack.internal.NotNull;
 import madstax.controller.listener.NavigationBarListener;
 
 import javax.swing.*;
@@ -108,7 +107,7 @@ public class NavigationBar extends JPanel {
         }
     }
 
-    public void createSubtitleItem(@NotNull String text) {
+    public void createSubtitleItem(String text) {
         JLabel subtitleLabel = getSubtitleLabel();
         if (subtitleLabel != null) {
             subtitleLabel.setText(text);
@@ -122,7 +121,7 @@ public class NavigationBar extends JPanel {
         navBarSlots.get(1).add(subtitleLabel, BorderLayout.SOUTH);
     }
 
-    public void createRightButtonItem(@NotNull String title) {
+    public void createRightButtonItem(String title) {
         JButton rightButton = getRightButton();
         if (rightButton != null) {
             rightButton.setText(title);

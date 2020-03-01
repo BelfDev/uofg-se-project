@@ -1,6 +1,5 @@
 package madstax.controller;
 
-import com.sun.istack.internal.NotNull;
 import madstax.view.ApplicationWindow;
 import madstax.view.NavigationBar;
 
@@ -31,14 +30,14 @@ public class NavigationController {
         return window;
     }
 
-    public void setRoot(@NotNull ScreenController screenController) {
+    public void setRoot(ScreenController screenController) {
         if (!navigationStack.isEmpty()) {
             navigationStack.clear();
         }
         pushController(screenController);
     }
 
-    public void pushController(@NotNull ScreenController screenController) {
+    public void pushController(ScreenController screenController) {
         navigationStack.push(screenController);
         attachToWindow(screenController);
     }
@@ -55,7 +54,7 @@ public class NavigationController {
         }
     }
 
-    private void attachToWindow(@NotNull ScreenController screenController) {
+    private void attachToWindow(ScreenController screenController) {
         String screenTitle = screenController.getScreen().getScreenTitle();
         boolean isRootScreen = navigationStack.size() == 1;
         // Updates the navigation bar
