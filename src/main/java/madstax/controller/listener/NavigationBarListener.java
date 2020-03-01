@@ -1,6 +1,5 @@
-package madstax.controller.navigation;
+package madstax.controller.listener;
 
-import java.awt.event.ActionEvent;
 import java.util.EventListener;
 
 public interface NavigationBarListener extends EventListener {
@@ -8,8 +7,8 @@ public interface NavigationBarListener extends EventListener {
     /**
      * Invoked when an action occurs.
      */
-    public void onBackButtonClicked();
+    void onBackButtonClicked();
 
-    public void onRightNavigationButtonClicked();
+    void onRightNavigationButtonClicked();
 
 }
