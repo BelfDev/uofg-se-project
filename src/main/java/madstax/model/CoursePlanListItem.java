@@ -17,7 +17,7 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
     @CsvBindByName
     private String course;
 
-    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class)
+    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class, splitOn = ",", writeDelimiter = ",")
     private List<String> requirements;
 
     @CsvBindByName
@@ -27,14 +27,6 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
     private RequestStatus status;
 
     public CoursePlanListItem() {
-    }
-
-    public CoursePlanListItem(int index, String course, List<String> requirements, int teacherId, RequestStatus status) {
-        this.index = index;
-        this.course = course;
-        this.requirements = requirements;
-        this.teacherId = teacherId;
-        this.status = status;
     }
 
     public int getIndex() {
@@ -55,6 +47,29 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
 
     public RequestStatus getStatus() {
         return status;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public void setRequirements(List<String> requirements) {
+        this.requirements = requirements;
+    }
+
+    public void setStatus(RequestStatus status) {
+        this.status = status;
+    }
+
+    public Object[] toArray() {
+        List<Object> content = new ArrayList<Object>() {{
+            add(getIndex());
+            add(getCourse());
+            add(getRequirements());
+            add(getTeacherId());
+            add(getStatus());
+        }};
+        return content.toArray(new Object[0]);
     }
 
     @Override

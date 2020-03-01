@@ -7,16 +7,16 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.List;
 
 public class ResourceIO {
@@ -25,18 +25,23 @@ public class ResourceIO {
     }
 
     public static ImageIcon getImageIcon(String imageName) {
-        String imageRelativePath = String.format("icons/%s.png", imageName);
-        URL imageURL = getResourceURL(imageRelativePath);
-        return new ImageIcon(imageURL);
+        try {
+            String imageRelativePath = String.format("icons/%s.png", imageName);
+            InputStream resource = getResourceStream(imageRelativePath);
+            BufferedImage image = ImageIO.read(resource);
+            return new ImageIcon(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ImageIcon();
     }
 
     public static <T> List<T> parseDataFromCSV(String fileName, Class<? extends T> type) {
         String csvFileRelativePath = String.format("csv/%s.csv", fileName);
-        URL csvURL = getResourceURL(csvFileRelativePath);
+        InputStream csvStream = getResourceStream(csvFileRelativePath);
 
         try {
-            Path filePath = Paths.get(csvURL.toURI());
-            Reader reader = Files.newBufferedReader(filePath);
+            Reader reader = new InputStreamReader(csvStream, StandardCharsets.UTF_8);
 
             HeaderColumnNameMappingStrategy<T> strategy = new HeaderColumnNameMappingStrategy<T>();
             strategy.setType(type);
@@ -51,7 +56,7 @@ public class ResourceIO {
             reader.close();
             return data;
 
-        } catch (URISyntaxException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -59,10 +64,12 @@ public class ResourceIO {
 
     public static <T> void writeDataToCSV(String fileName, List<T> data, Class<? extends T> type) {
         String csvFileRelativePath = String.format("csv/%s.csv", fileName);
-        URL csvURL = getResourceURL(csvFileRelativePath);
+        ClassLoader classLoader = ResourceIO.class.getClassLoader();
+        URL resourceURL = classLoader.getResource(csvFileRelativePath);
 
         try {
-            Path filePath = Paths.get(csvURL.toURI());
+            assert resourceURL != null;
+            Path filePath = Paths.get(resourceURL.toURI());
             Writer writer = Files.newBufferedWriter(filePath);
 
             HeaderColumnNameMappingStrategy<T> strategy = new HeaderColumnNameMappingStrategy<>();
@@ -77,18 +84,19 @@ public class ResourceIO {
 
             writer.flush();
             writer.close();
-        } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException | URISyntaxException | IOException e) {
+        } catch (CsvRequiredFieldEmptyException | CsvDataTypeMismatchException | IOException | URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
-    private static URL getResourceURL(String fileName) {
+    private static InputStream getResourceStream(String fileName) {
         ClassLoader classLoader = ResourceIO.class.getClassLoader();
-        URL resourceURL = classLoader.getResource(fileName);
-        if (resourceURL == null) {
+        InputStream resource = classLoader.getResourceAsStream(fileName);
+
+        if (resource == null) {
             throw new IllegalArgumentException("File not found");
         } else {
-            return classLoader.getResource(fileName);
+            return resource;
         }
     }
 

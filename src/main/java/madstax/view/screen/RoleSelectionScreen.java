@@ -1,4 +1,4 @@
-package madstax.view;
+package madstax.view.screen;
 
 import madstax.model.user.role.RoleType;
 
@@ -38,8 +38,6 @@ public class RoleSelectionScreen extends Screen {
 
     @Override
     void layoutComponents() {
-        setBackground(Color.RED);
-
         // Creates vertical box layout manager
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
