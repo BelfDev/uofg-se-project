@@ -8,6 +8,6 @@ public interface ModalEditorListener extends EventListener {
     /**
      * Invoked when the user clicked the save button
      */
-    public void onSavedRequirements(List<String> requirements);
+    void onSavedRequirements(List<String> requirements);
 
 }

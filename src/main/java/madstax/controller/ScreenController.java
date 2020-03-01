@@ -36,7 +36,6 @@ public abstract class ScreenController<T extends Screen> implements NavigationBa
 
     @Override
     public void onBackButtonClicked() {
-        System.out.println("Back Button Was Clicked from " + screen.getScreenTitle());
         navigationController.popController();
     }
 

@@ -7,6 +7,7 @@ import madstax.model.RequestStatus;
 import madstax.model.Teacher;
 import madstax.model.user.Permission;
 import madstax.model.user.User;
+import madstax.view.ConfirmationModal;
 import madstax.view.CoursePlannerScreen;
 import madstax.view.EditorToolbar;
 import madstax.view.ModalEditor;
@@ -30,13 +31,10 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
     private User user;
     private ApplicationRepository repo;
     private TreeSet<Permission> userPermissions;
-
     private List<Teacher> teachers;
     private List<CoursePlanListItem> list;
-
     private EditorToolbar editorToolbar;
     private ModalEditor modalEditor;
-
     private boolean isEditModeEnabled;
 
     public CoursePlannerController(User user) {
@@ -95,6 +93,15 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
         item.setRequirements(requirements);
         screen.updateRequirements(requirements);
         modalEditor.setVisible(false);
+    }
+
+    @Override
+    public void onBackButtonClicked() {
+        if (isEditModeEnabled) {
+            new ConfirmationModal("Exit", e -> CoursePlannerController.super.onBackButtonClicked());
+        } else {
+            super.onBackButtonClicked();
+        }
     }
 
     @Override

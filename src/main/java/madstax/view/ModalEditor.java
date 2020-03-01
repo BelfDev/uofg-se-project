@@ -14,8 +14,6 @@ public class ModalEditor extends JDialog {
     private final static String MODAL_TITLE = "Requirement Editor";
     private final static int COMPONENT_MARGIN = 4;
 
-    private JButton addButton;
-    private JButton saveButton;
     private JTextField textField;
     private DefaultListModel<String> listModel;
 
@@ -61,7 +59,7 @@ public class ModalEditor extends JDialog {
         // Components
         JLabel instructionLabel = new JLabel("Add a new requirement");
         instructionLabel.setVerticalAlignment(JLabel.CENTER);
-        saveButton = new JButton("DONE");
+        JButton saveButton = new JButton("DONE");
         saveButton.setVerticalAlignment(JButton.CENTER);
         saveButton.addActionListener(e -> listener.onSavedRequirements(getAllElementsFromList()));
 
@@ -81,12 +79,13 @@ public class ModalEditor extends JDialog {
     private JPanel createAdditionToolbar() {
         // Components
         textField = new JTextField();
-        addButton = new JButton("ADD");
+        JButton addButton = new JButton("ADD");
         addButton.setVerticalAlignment(JButton.CENTER);
 
         addButton.addActionListener(e -> {
             String input = textField.getText();
             listModel.addElement(input);
+            textField.setText("");
         });
 
         // Toolbar
