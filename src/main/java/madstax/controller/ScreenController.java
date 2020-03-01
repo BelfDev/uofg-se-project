@@ -1,15 +1,13 @@
 package madstax.controller;
 
-import madstax.controller.navigation.NavigationBarListener;
-import madstax.controller.navigation.NavigationController;
-import madstax.view.ApplicationWindow;
+import madstax.controller.listener.NavigationBarListener;
 import madstax.view.NavigationBar;
-import madstax.view.Screen;
+import madstax.view.screen.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 
-public abstract class ScreenController<T extends Screen> implements NavigationBarListener {
+abstract class ScreenController<T extends Screen> implements NavigationBarListener {
 
     protected T screen;
     protected NavigationController navigationController;
@@ -29,9 +27,6 @@ public abstract class ScreenController<T extends Screen> implements NavigationBa
 
     public void onAttached() {
         animateFadeIn();
-    }
-
-    public void onDetach() {
     }
 
     @Override

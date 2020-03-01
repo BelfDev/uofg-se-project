@@ -1,12 +1,12 @@
-package madstax.controller.navigation;
+package madstax.controller;
 
 import com.sun.istack.internal.NotNull;
-import madstax.controller.ScreenController;
 import madstax.view.ApplicationWindow;
 import madstax.view.NavigationBar;
 
 import java.util.Stack;
 
+@SuppressWarnings("rawtypes")
 public class NavigationController {
 
     private static NavigationController instance = null;
@@ -38,14 +38,6 @@ public class NavigationController {
         pushController(screenController);
     }
 
-    public void popToRoot() {
-        ScreenController rootScreenController = null;
-        for (int i = 0; i < navigationStack.size(); i++) {
-            rootScreenController = navigationStack.pop();
-        }
-        setRoot(rootScreenController);
-    }
-
     public void pushController(@NotNull ScreenController screenController) {
         navigationStack.push(screenController);
         attachToWindow(screenController);
@@ -54,7 +46,7 @@ public class NavigationController {
     public void popController() {
         if (!navigationStack.isEmpty()) {
             // Invokes 'onDetach' lifecycle method
-            navigationStack.pop().onDetach();
+            navigationStack.pop();
             // Clears the navigation bar
             navigationBar.setListener(null);
             navigationBar.removeBarItems();

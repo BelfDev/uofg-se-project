@@ -1,5 +1,7 @@
 package madstax.view;
 
+import madstax.view.screen.Screen;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,6 +18,18 @@ public class ApplicationWindow extends JFrame {
         setupContainers();
         this.setBackground(Color.gray);
         this.setVisible(true);
+    }
+
+    public void attachContent(Screen screen) {
+        remove(contentContainer);
+        contentContainer = screen;
+        add(contentContainer, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+
+    public NavigationBar getNavigationBar() {
+        return navigationBar;
     }
 
     // Configures the JFrame's properties
@@ -35,18 +49,6 @@ public class ApplicationWindow extends JFrame {
         contentContainer = new JPanel();
         add(navigationBar, BorderLayout.PAGE_START);
         add(contentContainer, BorderLayout.CENTER);
-    }
-
-    public void attachContent(Screen screen) {
-        remove(contentContainer);
-        contentContainer = screen;
-        add(contentContainer, BorderLayout.CENTER);
-        revalidate();
-        repaint();
-    }
-
-    public NavigationBar getNavigationBar() {
-        return navigationBar;
     }
 
 }

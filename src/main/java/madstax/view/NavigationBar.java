@@ -1,7 +1,7 @@
 package madstax.view;
 
 import com.sun.istack.internal.NotNull;
-import madstax.controller.navigation.NavigationBarListener;
+import madstax.controller.listener.NavigationBarListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

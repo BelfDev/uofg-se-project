@@ -1,6 +1,7 @@
 package madstax.controller;
 
 import madstax.application.ApplicationRepository;
+import madstax.controller.listener.ModalEditorListener;
 import madstax.model.CoursePlanListItem;
 import madstax.model.CoursePlanListModel;
 import madstax.model.RequestStatus;
@@ -8,9 +9,9 @@ import madstax.model.Teacher;
 import madstax.model.user.Permission;
 import madstax.model.user.User;
 import madstax.view.ConfirmationModal;
-import madstax.view.CoursePlannerScreen;
-import madstax.view.EditorToolbar;
-import madstax.view.ModalEditor;
+import madstax.view.screen.CoursePlannerScreen;
+import madstax.view.editor.EditorToolbar;
+import madstax.view.editor.ModalEditor;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -108,17 +109,13 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
     public void onRightNavigationButtonClicked() {
         navBar.setRightButtonText(isEditModeEnabled ? EDIT_BUTTON_TITLE : SAVE_BUTTON_TITLE);
         if (isEditModeEnabled) {
-            // User is currently in the EDIT mode
-            // The next action is to SAVE the changes
-
-            // Update the repo asynchronously
+            // Updates the repo asynchronously
             Runnable r = () -> repo.updateCoursePlanList(list);
             new Thread(r).start();
 
             editorToolbar.deactivate();
             isEditModeEnabled = false;
         } else {
-            // User is activating the EDIT mode
             activateEditMode(true);
         }
     }

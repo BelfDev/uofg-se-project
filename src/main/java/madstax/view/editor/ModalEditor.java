@@ -1,6 +1,6 @@
-package madstax.view;
+package madstax.view.editor;
 
-import madstax.controller.ModalEditorListener;
+import madstax.controller.listener.ModalEditorListener;
 
 import javax.swing.*;
 import java.awt.*;

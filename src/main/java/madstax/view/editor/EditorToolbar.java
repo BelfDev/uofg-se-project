@@ -1,4 +1,4 @@
-package madstax.view;
+package madstax.view.editor;
 
 import madstax.model.util.DropdownModel;
 
@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class EditorToolbar extends JPanel {
 
     private static final int TOOLBAR_HEIGHT = 80;

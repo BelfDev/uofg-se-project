@@ -4,7 +4,7 @@ import madstax.model.user.User;
 import madstax.model.user.role.Role;
 import madstax.model.user.role.RoleFactory;
 import madstax.model.user.role.RoleType;
-import madstax.view.RoleSelectionScreen;
+import madstax.view.screen.RoleSelectionScreen;
 
 import java.awt.event.ActionListener;
 
@@ -36,6 +36,7 @@ public class RoleSelectionController extends ScreenController<RoleSelectionScree
 
     private Role getSelectedRow() {
         RoleType selectedItem = (RoleType) screen.getDropdownMenu().getSelectedItem();
+        assert selectedItem != null;
         return RoleFactory.getRole(selectedItem);
     }
 

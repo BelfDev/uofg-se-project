@@ -16,9 +16,6 @@ public class CoursePlanListModel extends AbstractTableModel {
         this.headers = Arrays.stream(CoursePlanListItem.class.getDeclaredFields())
                 .collect(Collectors.toCollection(ArrayList::new));
         this.data = data;
-//        this.data = rows.stream()
-//                .map(CoursePlanListItem::toArray)
-//                .toArray(Object[][]::new);
     }
 
     @Override

@@ -2,10 +2,9 @@ package madstax.model.user.role;
 
 import madstax.model.user.Permission;
 
-import java.util.HashMap;
 import java.util.TreeSet;
 
-import static madstax.model.user.Permission.*;
+import static madstax.model.user.Permission.ADD_REQUIREMENT;
 
 class ClassDirector extends Role {
 

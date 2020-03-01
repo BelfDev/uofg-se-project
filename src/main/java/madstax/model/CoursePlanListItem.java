@@ -29,14 +29,6 @@ public class CoursePlanListItem implements Comparable<CoursePlanListItem> {
     public CoursePlanListItem() {
     }
 
-    public CoursePlanListItem(int index, String course, List<String> requirements, int teacherId, RequestStatus status) {
-        this.index = index;
-        this.course = course;
-        this.requirements = requirements;
-        this.teacherId = teacherId;
-        this.status = status;
-    }
-
     public int getIndex() {
         return index;
     }

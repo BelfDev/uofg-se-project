@@ -1,7 +1,9 @@
-package madstax.view;
+package madstax.view.screen;
 
 import madstax.model.CoursePlanListModel;
 import madstax.model.RequestStatus;
+import madstax.view.PlannerCellRenderer;
+import madstax.view.editor.EditorToolbar;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;

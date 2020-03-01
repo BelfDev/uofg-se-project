@@ -20,12 +20,6 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Teacher(int id, String name, List<String> qualifications) {
-        this.id = id;
-        this.name = name;
-        this.qualifications = qualifications;
-    }
-
     public int getId() {
         return id;
     }

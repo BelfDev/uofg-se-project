@@ -16,7 +16,7 @@ public abstract class Role {
         this.permissions = getDefaultPermissions();
     }
 
-    // Returns permission map with all values set to false
+    // Returns permission set with all values set to false
     private TreeSet<Permission> getDefaultPermissions() {
         return new TreeSet<Permission>() {{
             add(VIEW_REQUIREMENT_LIST);

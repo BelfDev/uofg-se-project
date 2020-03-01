@@ -9,12 +9,13 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 
+@SuppressWarnings("unchecked")
 public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 
-        String s = "";
+        String s;
         switch (col) {
             case 2:
                 s = StringUtils.join((ArrayList<String>) value, ", ");

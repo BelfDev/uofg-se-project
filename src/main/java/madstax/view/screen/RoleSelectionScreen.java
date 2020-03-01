@@ -1,4 +1,4 @@
-package madstax.view;
+package madstax.view.screen;
 
 import madstax.model.user.role.RoleType;
 
