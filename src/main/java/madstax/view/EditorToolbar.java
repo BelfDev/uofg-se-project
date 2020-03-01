@@ -7,10 +7,12 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class EditorToolbar<E> extends JPanel {
+public class EditorToolbar extends JPanel {
 
     private static final int TOOLBAR_HEIGHT = 80;
     private static final int NUMBER_OF_SLOTS = 3;
+    private static final int DEFAULT_COMPONENT_HEIGHT = 40;
+
     private static final String CONFIRM_BUTTON_TITLE = "CONFIRM";
     private static final String INSTRUCTION_TEXT = "Activate the EDIT mode to start editing";
 
@@ -18,9 +20,8 @@ public class EditorToolbar<E> extends JPanel {
 
     private JLabel instructionLabel;
     private JLabel courseLabel;
-    private JComboBox<E> dropdown;
+    private JComboBox dropdown;
     private JButton actionButton;
-    protected Class<? extends E> elementType;
 
     private EditorToolbar() {
         // Sets the toolbar layout
@@ -41,7 +42,7 @@ public class EditorToolbar<E> extends JPanel {
         courseLabel.setVisible(false);
 
         actionButton = new JButton(CONFIRM_BUTTON_TITLE);
-        actionButton.setPreferredSize(new Dimension(100, 40));
+        actionButton.setPreferredSize(new Dimension(100, DEFAULT_COMPONENT_HEIGHT));
         actionButton.setAlignmentY(SwingUtilities.CENTER);
         actionButton.setVisible(false);
 
@@ -53,13 +54,10 @@ public class EditorToolbar<E> extends JPanel {
         this.setVisible(true);
     }
 
-    public void setElementType(Class<? extends E> elementType) {
-        this.elementType = elementType;
-    }
-
-    public E getSelectedDropdownItem() {
-        if (dropdown.getSelectedItem() != null) {
-            DropdownModel<E> model = (DropdownModel<E>) dropdown.getModel();
+    public Object getSelectedDropdownItem() {
+        int index = dropdown.getSelectedIndex();
+        if (dropdown.getSelectedItem() != null && index > -1) {
+            DropdownModel<Object> model = (DropdownModel) dropdown.getModel();
             return model.getSelectedItem();
         }
         return null;
@@ -69,23 +67,11 @@ public class EditorToolbar<E> extends JPanel {
         courseLabel.setText(text);
     }
 
-    public void createDecisionDropDown() {
-        dropdown = new JComboBox<>();
-        slots.get(1).remove(instructionLabel);
-        slots.get(1).add(dropdown);
-    }
-
-    public void setDropdownData(E[] data) {
+    public <E> void setDropdownData(E[] data) {
         DropdownModel<E> model = new DropdownModel<>(data);
         dropdown.setModel(model);
+        dropdown.setSelectedIndex(-1);
     }
-
-//    public void setDecisionDropdownData(Teacher[] teachers) {
-//        Teacher[] dropdownData = new Teacher[]{new Teacher(-1, "Select an Option", null)};
-//        Teacher[] newArray = ArrayUtils.addAll(dropdownData, teachers);
-//        TeacherDropdownModel model = new TeacherDropdownModel(newArray);
-//        decisionDropdown.setModel(model);
-//    }
 
     public void setConfirmButtonListener(ActionListener listener) {
         actionButton.addActionListener(listener);
@@ -135,7 +121,8 @@ public class EditorToolbar<E> extends JPanel {
 
         public Builder withDropdown() {
             if (dropdown == null) {
-                dropdown = new JComboBox();
+                dropdown = new JComboBox<>();
+                dropdown.setPreferredSize(new Dimension(156, DEFAULT_COMPONENT_HEIGHT));
             }
             return this;
         }
@@ -152,7 +139,7 @@ public class EditorToolbar<E> extends JPanel {
             if (actionButtonTitle != null) {
                 JButton actionButton = toolbar.actionButton;
                 actionButton.setText(actionButtonTitle);
-                actionButton.setPreferredSize(new Dimension(156, 40));
+                actionButton.setPreferredSize(new Dimension(156, DEFAULT_COMPONENT_HEIGHT));
             }
 
             return toolbar;

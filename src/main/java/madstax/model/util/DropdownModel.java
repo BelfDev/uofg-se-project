@@ -23,7 +23,7 @@ public class DropdownModel<E> extends DefaultComboBoxModel<E> {
     }
 
     @Override
-    public E getSelectedItem() {
-        return (E) super.getSelectedItem();
+    public Object getSelectedItem() {
+        return super.getSelectedItem();
     }
 }
