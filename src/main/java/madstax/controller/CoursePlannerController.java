@@ -20,13 +20,11 @@ import java.util.TreeSet;
 
 import static madstax.model.user.Permission.*;
 
-// TODO: Refactor to account for different interfaces
 public class CoursePlannerController extends ScreenController<CoursePlannerScreen> implements ListSelectionListener, ModalEditorListener {
-
-    private static final String[] TABLE_HEADER = {"INDEX", "COURSE", "REQUIREMENTS", "TEACHER NAME", "STATUS"};
 
     private static final String EDIT_BUTTON_TITLE = "EDIT";
     private static final String SAVE_BUTTON_TITLE = "SAVE";
+    private static final String EDIT_REQUIREMENT_BUTTON_TITLE = "EDIT REQUIREMENTS";
 
     private User user;
     private ApplicationRepository repo;
@@ -49,21 +47,6 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
         processPermissions();
     }
 
-    // TODO: Change permissions to a TreeSet
-    private void processPermissions() {
-        if (userPermissions.contains(ASSIGN_STAFF) || userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
-            editorToolbar = new EditorToolbar.Builder()
-                    .withDropdown().build();
-        } else if (userPermissions.contains(ADD_REQUIREMENT)) {
-            editorToolbar = new EditorToolbar.Builder()
-                    .actionButtonText("EDIT REQUIREMENTS")
-                    .build();
-            modalEditor = new ModalEditor();
-            modalEditor.setListener(this);
-        }
-        screen.addEditorToolbar(editorToolbar);
-    }
-
     @Override
     public void onAttached() {
         String subtitle = user.getRole().getName();
@@ -72,59 +55,12 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
         loadData();
 
-        Map<Integer, Teacher> map = repo.getTeacherMap();
-
-        Object[][] data = list.stream()
-                .map(CoursePlanListItem::toArray)
-                .peek(row -> {
-                    int teacherId = (int) row[3];
-                    row[3] = map.containsKey(teacherId) ? map.get(teacherId).getName() : "";
-                })
-                .toArray(Object[][]::new);
-
-//        CoursePlanListModel model = new CoursePlanListModel(list);
-        CoursePlanListModel model = new CoursePlanListModel(data);
-
+        CoursePlanListModel model = getCoursePlanListModel();
         screen.setTableModel(model, this);
+
         editorToolbar.setConfirmButtonListener(onConfirmButtonClick());
 
         super.onAttached();
-    }
-
-    private ActionListener onConfirmButtonClick() {
-        return e -> {
-            int row = screen.getSelectedRow();
-            CoursePlanListItem editedItem = list.get(row);
-            if (userPermissions.contains(ADD_REQUIREMENT)) {
-                CoursePlanListItem item = list.get(row);
-                modalEditor.setRequirements(item.getRequirements());
-                modalEditor.setVisible(true);
-            } else if (userPermissions.contains(ASSIGN_STAFF)) {
-                Teacher selectedTeacher = (Teacher) editorToolbar.getSelectedDropdownItem();
-                if (selectedTeacher != null) {
-                    editedItem.setTeacherId(selectedTeacher.getId());
-                    screen.updateAssignedTeacher(selectedTeacher.getName());
-                }
-            } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
-                RequestStatus selectedStatus = (RequestStatus) editorToolbar.getSelectedDropdownItem();
-                if (selectedStatus != null) {
-                    editedItem.setStatus(selectedStatus);
-                    screen.updateRequestStatus(selectedStatus);
-                }
-            }
-        };
-    }
-
-    private void loadData() {
-        this.teachers = repo.getTeachers();
-        this.list = repo.getCoursePlanListItems();
-    }
-
-    private Teacher[] filterSuitableTeachers(List<String> requirements) {
-        return teachers.stream()
-                .filter(t -> t.getQualifications().stream()
-                        .anyMatch(requirements::contains))
-                .toArray(Teacher[]::new);
     }
 
     @Override
@@ -177,6 +113,69 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
             // User is activating the EDIT mode
             activateEditMode(true);
         }
+    }
+
+    private void processPermissions() {
+        if (userPermissions.contains(ASSIGN_STAFF) || userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
+            editorToolbar = new EditorToolbar.Builder()
+                    .withDropdown().build();
+        } else if (userPermissions.contains(ADD_REQUIREMENT)) {
+            editorToolbar = new EditorToolbar.Builder()
+                    .actionButtonText(EDIT_REQUIREMENT_BUTTON_TITLE)
+                    .build();
+            modalEditor = new ModalEditor();
+            modalEditor.setListener(this);
+        }
+        screen.addEditorToolbar(editorToolbar);
+    }
+
+    private void loadData() {
+        this.teachers = repo.getTeachers();
+        this.list = repo.getCoursePlanListItems();
+    }
+
+    private CoursePlanListModel getCoursePlanListModel() {
+        Map<Integer, Teacher> map = repo.getTeacherMap();
+        Object[][] data = list.stream()
+                .map(CoursePlanListItem::toArray)
+                .peek(row -> {
+                    int teacherId = (int) row[3];
+                    row[3] = map.containsKey(teacherId) ? map.get(teacherId).getName() : "";
+                })
+                .toArray(Object[][]::new);
+
+        return new CoursePlanListModel(data);
+    }
+
+    private Teacher[] filterSuitableTeachers(List<String> requirements) {
+        return teachers.stream()
+                .filter(t -> t.getQualifications().stream()
+                        .anyMatch(requirements::contains))
+                .toArray(Teacher[]::new);
+    }
+
+    private ActionListener onConfirmButtonClick() {
+        return e -> {
+            int row = screen.getSelectedRow();
+            CoursePlanListItem editedItem = list.get(row);
+            if (userPermissions.contains(ADD_REQUIREMENT)) {
+                CoursePlanListItem item = list.get(row);
+                modalEditor.setRequirements(item.getRequirements());
+                modalEditor.setVisible(true);
+            } else if (userPermissions.contains(ASSIGN_STAFF)) {
+                Teacher selectedTeacher = (Teacher) editorToolbar.getSelectedDropdownItem();
+                if (selectedTeacher != null) {
+                    editedItem.setTeacherId(selectedTeacher.getId());
+                    screen.updateAssignedTeacher(selectedTeacher.getName());
+                }
+            } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
+                RequestStatus selectedStatus = (RequestStatus) editorToolbar.getSelectedDropdownItem();
+                if (selectedStatus != null) {
+                    editedItem.setStatus(selectedStatus);
+                    screen.updateRequestStatus(selectedStatus);
+                }
+            }
+        };
     }
 
     private void activateEditMode(boolean selectFirst) {

@@ -77,10 +77,6 @@ public class EditorToolbar extends JPanel {
         actionButton.addActionListener(listener);
     }
 
-    public void setConfirmButtonText(String title) {
-        this.actionButton.setText(title);
-    }
-
     public void activate() {
         slots.get(1).remove(instructionLabel);
         courseLabel.setVisible(true);
