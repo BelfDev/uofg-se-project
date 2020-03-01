@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import static madstax.model.RequestStatus.AWAITING_APPROVAL;
 import static madstax.model.user.Permission.*;
 
 public class CoursePlannerController extends ScreenController<CoursePlannerScreen> implements ListSelectionListener, ModalEditorListener {
@@ -166,7 +167,9 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
                 Teacher selectedTeacher = (Teacher) editorToolbar.getSelectedDropdownItem();
                 if (selectedTeacher != null) {
                     editedItem.setTeacherId(selectedTeacher.getId());
+                    editedItem.setStatus(AWAITING_APPROVAL);
                     screen.updateAssignedTeacher(selectedTeacher.getName());
+                    screen.updateRequestStatus(AWAITING_APPROVAL);
                 }
             } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
                 RequestStatus selectedStatus = (RequestStatus) editorToolbar.getSelectedDropdownItem();
