@@ -28,7 +28,7 @@ public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
         }
         Component c = renderer.getTableCellRendererComponent(table, s,
                 isSelected, hasFocus, row, col);
-        ((JLabel) c).setHorizontalAlignment(SwingConstants.LEFT);
+        ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
 
         return c;
     }
