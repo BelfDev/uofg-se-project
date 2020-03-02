@@ -6,6 +6,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import madstax.model.Teacher;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,9 +39,9 @@ public class ResourceIO {
 
     public static <T> List<T> parseDataFromCSV(String fileName, Class<? extends T> type) {
         String csvFileRelativePath = String.format("csv/%s.csv", fileName);
-        InputStream csvStream = getResourceStream(csvFileRelativePath);
 
         try {
+            InputStream csvStream = (type == Teacher.class) ? getResourceStream(csvFileRelativePath) : new FileInputStream(csvFileRelativePath);
             Reader reader = new InputStreamReader(csvStream, StandardCharsets.UTF_8);
 
             HeaderColumnNameMappingStrategy<T> strategy = new HeaderColumnNameMappingStrategy<T>();
@@ -64,12 +65,18 @@ public class ResourceIO {
 
     public static <T> void writeDataToCSV(String fileName, List<T> data, Class<? extends T> type) {
         String csvFileRelativePath = String.format("csv/%s.csv", fileName);
-        ClassLoader classLoader = ResourceIO.class.getClassLoader();
-        URL resourceURL = classLoader.getResource(csvFileRelativePath);
 
         try {
-            assert resourceURL != null;
-            Path filePath = Paths.get(resourceURL.toURI());
+            Path filePath;
+            if (type == Teacher.class) {
+                ClassLoader classLoader = ResourceIO.class.getClassLoader();
+                URL resourceURL = classLoader.getResource(csvFileRelativePath);
+                assert resourceURL != null;
+                filePath = Paths.get(resourceURL.toURI());
+            } else {
+                filePath = Paths.get(csvFileRelativePath);
+            }
+
             Writer writer = Files.newBufferedWriter(filePath);
 
             HeaderColumnNameMappingStrategy<T> strategy = new HeaderColumnNameMappingStrategy<>();
