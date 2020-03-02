@@ -7,6 +7,7 @@ import madstax.view.editor.EditorToolbar;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.ArrayList;
@@ -40,7 +41,8 @@ public class CoursePlannerScreen extends Screen {
 
     public void setTableModel(CoursePlanListModel model, ListSelectionListener selectionListener) {
         table.setModel(model);
-        setColumnWidths();
+        setTableHeaderStyle();
+        setCellSize();
         ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         selectionModel.addListSelectionListener(selectionListener);
@@ -48,7 +50,16 @@ public class CoursePlannerScreen extends Screen {
         table.repaint();
     }
 
-    private void setColumnWidths(){
+    private void setTableHeaderStyle(){
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(100, 100, 100));
+        header.setForeground(Color.white);
+        header.setPreferredSize(new Dimension(0, 30));
+        header.setFont(new Font("Tahoma", Font.BOLD, 14));
+    }
+
+    private void setCellSize(){
+        table.setRowHeight(23);
         TableColumn column = null;
         for(int i=0; i<5; i++){
             column = table.getColumnModel().getColumn(i);
