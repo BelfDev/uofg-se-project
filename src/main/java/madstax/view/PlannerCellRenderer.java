@@ -30,6 +30,12 @@ public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
                 isSelected, hasFocus, row, col);
         ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
 
+        if(row%2 == 0){
+            c.setBackground(new Color(240,240,240));
+        }else{
+            c.setBackground(new Color(210,210,210));
+        }
+
         return c;
     }
 
