@@ -59,7 +59,8 @@ public class CoursePlannerScreen extends Screen {
     }
 
     private void setCellSize(){
-        table.setRowHeight(23);
+        table.setRowHeight(25);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 13));
         TableColumn column = null;
         for(int i=0; i<5; i++){
             column = table.getColumnModel().getColumn(i);
