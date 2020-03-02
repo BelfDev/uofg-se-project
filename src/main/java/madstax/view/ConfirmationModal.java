@@ -37,7 +37,7 @@ public class ConfirmationModal extends JDialog {
     }
 
     private void setupFrameContainer() {
-        Dimension minimumDimension = new Dimension(INITIAL_WINDOW_WIDTH / 3, INITIAL_WINDOW_HEIGHT / 8);
+        Dimension minimumDimension = new Dimension(INITIAL_WINDOW_WIDTH / 3, INITIAL_WINDOW_HEIGHT / 6);
         this.setSize(minimumDimension);
         this.setMinimumSize(minimumDimension);
 
