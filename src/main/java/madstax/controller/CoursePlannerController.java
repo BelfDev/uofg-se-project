@@ -80,7 +80,7 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
                 if (userPermissions.contains(ASSIGN_STAFF)) {
                     data = filterSuitableTeachers(item.getRequirements());
                 } else if (userPermissions.contains(APPROVE_TEACHING_REQUEST)) {
-                    data = new RequestStatus[]{RequestStatus.UNASSIGNED, RequestStatus.APPROVED, RequestStatus.DENIED};
+                    data = new RequestStatus[]{RequestStatus.APPROVED, RequestStatus.DENIED};
                 }
                 editorToolbar.setDropdownData(data);
             }
