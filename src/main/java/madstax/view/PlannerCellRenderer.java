@@ -32,14 +32,14 @@ public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
         ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
 
         if(col == 4){
-            switch(s){
-                case "Approved":
+            switch((RequestStatus)value){
+                case APPROVED:
                     c.setForeground(new Color(15, 194,0));
                     break;
-                case "Denied":
+                case DENIED:
                     c.setForeground(Color.red);
                     break;
-                case "Awaiting Approval":
+                case AWAITING_APPROVAL:
                     c.setForeground(new Color(255, 127, 2));
                     break;
             }
