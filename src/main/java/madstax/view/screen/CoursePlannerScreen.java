@@ -7,6 +7,8 @@ import madstax.view.editor.EditorToolbar;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +41,43 @@ public class CoursePlannerScreen extends Screen {
 
     public void setTableModel(CoursePlanListModel model, ListSelectionListener selectionListener) {
         table.setModel(model);
+        setTableHeaderStyle();
+        setCellSize();
         ListSelectionModel selectionModel = table.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         selectionModel.addListSelectionListener(selectionListener);
         table.revalidate();
         table.repaint();
+    }
+
+    private void setTableHeaderStyle(){
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(100, 100, 100));
+        header.setForeground(Color.white);
+        header.setPreferredSize(new Dimension(0, 30));
+        header.setFont(new Font("Tahoma", Font.BOLD, 14));
+    }
+
+    private void setCellSize(){
+        table.setRowHeight(25);
+        table.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        TableColumn column = null;
+        for(int i=0; i<5; i++){
+            column = table.getColumnModel().getColumn(i);
+            switch(i){
+                case 0:
+                    column.setPreferredWidth(10);
+                    break;
+                case 1:
+                    column.setPreferredWidth(150);
+                    break;
+                case 2:
+                    column.setPreferredWidth(200);
+                    break;
+                default:
+                    column.setPreferredWidth(100);
+            }
+        }
     }
 
     public void updateAssignedTeacher(String teacherName) {

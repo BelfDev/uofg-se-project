@@ -28,6 +28,7 @@ class NavigationButton extends JButton {
         this.setOpaque(false);
         this.setContentAreaFilled(false);
         this.setBorderPainted(false);
+        this.setFocusPainted(false);
     }
 
     @Override

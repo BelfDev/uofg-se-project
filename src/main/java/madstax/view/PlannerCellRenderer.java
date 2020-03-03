@@ -26,9 +26,30 @@ public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
             default:
                 s = value.toString();
         }
+
         Component c = renderer.getTableCellRendererComponent(table, s,
                 isSelected, hasFocus, row, col);
-        ((JLabel) c).setHorizontalAlignment(SwingConstants.LEFT);
+        ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
+
+        if(col == 4){
+            switch((RequestStatus)value){
+                case APPROVED:
+                    c.setForeground(new Color(15, 194,0));
+                    break;
+                case DENIED:
+                    c.setForeground(Color.red);
+                    break;
+                case AWAITING_APPROVAL:
+                    c.setForeground(new Color(255, 127, 2));
+                    break;
+            }
+        }
+
+        if(row%2 == 0){
+            c.setBackground(new Color(240,240,240));
+        }else{
+            c.setBackground(new Color(210,210,210));
+        }
 
         return c;
     }
