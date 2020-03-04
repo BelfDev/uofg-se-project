@@ -20,6 +20,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Provides methods to perform I/O operations such as loading
+ * resource files, and reading/writing CSVs.
+ */
 public class ResourceIO {
 
     private ResourceIO() {

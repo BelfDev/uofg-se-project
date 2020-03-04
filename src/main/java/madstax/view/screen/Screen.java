@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Class {@code Screen} is the base class for all screen views.
+ * It inherits from JPanel and sets a blue print for every screen.
+ */
 public abstract class Screen extends JPanel {
 
     protected final int BIG_FONT_SIZE = 32;
