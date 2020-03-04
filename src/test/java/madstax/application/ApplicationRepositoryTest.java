@@ -1,7 +1,6 @@
 package madstax.application;
 
 import madstax.model.CoursePlanListItem;
-import madstax.model.RequestStatus;
 import madstax.model.Teacher;
 import org.junit.jupiter.api.*;
 
@@ -14,53 +13,31 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 @TestInstance(PER_CLASS)
 public class ApplicationRepositoryTest {
     private ApplicationRepository repo;
-    private List<CoursePlanListItem> coursePlanList;
-
-    private RequestStatus firstItemInitialStatus;
 
     @BeforeAll
     void setupTests() {
         repo = ApplicationRepository.getInstance();
-        coursePlanList = repo.getCoursePlanListItems();
-
-        firstItemInitialStatus = coursePlanList.get(0).getStatus();
-    }
-
-    @AfterAll
-    void resetTests() {
-        coursePlanList.get(0).setStatus(firstItemInitialStatus);
-        repo.updateCoursePlanList(coursePlanList);
     }
 
     @Test
-    @DisplayName("Should return course plan list")
-    void shouldReturnCoursePlanList() {
+    @DisplayName("Repo populates course plan list")
+    void getCoursePlanListItems_coursePlanListPopulated() {
+        List<CoursePlanListItem> coursePlanList = repo.getCoursePlanListItems();
         assertFalse(coursePlanList.isEmpty());
     }
 
     @Test
-    @DisplayName("Should return teachers")
-    void shouldReturnTeachers() {
+    @DisplayName("Repo populates teachers list")
+    void getTeachers_teachersPopulated() {
         List<Teacher> teachers = repo.getTeachers();
         assertFalse(teachers.isEmpty());
     }
 
     @Test
-    @DisplayName("Should create map of correct size")
-    void shouldReturnTeacherMap() {
+    @DisplayName("Teachers list correctly converted to map")
+    void getTeacherMap_TeachersList_TeachersMap() {
         List<Teacher> teachers = repo.getTeachers();
         Map<Integer, Teacher> map = repo.getTeacherMap();
-        assertEquals(teachers.size(), map.size());
-    }
-
-    @Test
-    @DisplayName("Should update course plan list")
-    void shouldUpdateCoursePlanList() {
-        coursePlanList.get(0).setStatus(RequestStatus.AWAITING_APPROVAL);
-        repo.updateCoursePlanList(coursePlanList);
-
-        List<CoursePlanListItem> updatedCoursePlanList = repo.getCoursePlanListItems();
-
-        assertEquals(updatedCoursePlanList.get(0).getStatus(), RequestStatus.AWAITING_APPROVAL);
+        assertEquals(map.size(), teachers.size());
     }
 }
