@@ -1,0 +1,51 @@
+INDEX,COURSE,REQUIREMENTS,TEACHERID,STATUS
+1,History of Memes,"Information Technology,Art,Creative Writing",2,APPROVED
+2,Bagpiping,Music,10,APPROVED
+3,Clownology,"Dramatic Arts,Makeup",3,DENIED
+4,Puppetry,"Dramatic Arts,Art",0,UNASSIGNED
+5,Surf Science and Technology,"Physical Education,Surfing,Swimming",15,AWAITING_APPROVAL
+6,Poultry Science,"Biology,Farming",0,UNASSIGNED
+7,Brewing and Distilling,"Chemisty,Pub Technology",13,APPROVED
+8,Sexual Health Studies,Biology,12,APPROVED
+9,Floral Design,"Biology,Botony,Art",2,DENIED
+10,Ethical Hacking,"Information Technology,Maths",5,AWAITING_APPROVAL
+11,Applied Golf Management,"Physical Education,Golf,Physics",0,UNASSIGNED
+12,Baking Technology Management,Food Technology,14,DENIED
+13,Film,Netflix Account,0,UNASSIGNED
+14,Civil Engineering,"Maths,Physics",4,APPROVED
+15,Computing Science,"Information Technology,Maths",1,AWAITING_APPROVAL
+16,Marine Biology,Biology,41,AWAITING_APPROVAL
+17,Medicine,"Biology,Chemistry",30,AWAITING_APPROVAL
+18,Sports Psychology,"Physical Education,Psychology",45,APPROVED
+19,Mathematics,"Maths,Physics",17,DENIED
+20,Statistics,Maths,21,DENIED
+21,Psychology,"Psychology,Biology",0,UNASSIGNED
+22,Law,"History,Law,English",43,APPROVED
+23,Physiotherapy,"Biology,Physical Education",0,UNASSIGNED
+24,History,History,0,UNASSIGNED
+25,Modern Foreign Language,"French,German,Spanish",25,AWAITING_APPROVAL
+26,Latin,Latin,32,APPROVED
+27,Primary Education,"Education,Childcare",16,DENIED
+28,Mechanical Engineering,"Maths,Physics",23,DENIED
+29,Chemical Engineering,"Maths,Physics,Chemistry",27,APPROVED
+30,Economics,Maths,18,AWAITING_APPROVAL
+31,Business Studies,"Maths,Business",29,AWAITING_APPROVAL
+32,Physics,"Maths,Physics",0,UNASSIGNED
+33,Chemistry,"Maths,Chemistry",0,UNASSIGNED
+34,Biology,Biology,31,DENIED
+35,Fine Art,"Art,History",0,UNASSIGNED
+36,English Literature,English,37,AWAITING_APPROVAL
+37,Veterinary Science,"Biology,Chemistry",22,AWAITING_APPROVAL
+38,Agriculture,"Biology,Farming",0,UNASSIGNED
+39,Architecture,"Maths,Physics,Art",20,DENIED
+40,Dentistry,"Biology,Chemistry",24,APPROVED
+41,Sports Science,"Physical Education,Biology",39,APPROVED
+42,Hospitality and Tourism,"Hospitality,Geography",42,APPROVED
+43,Geography,Geography,50,DENIED
+44,Accounting,"Business,Maths",36,AWAITING_APPROVAL
+45,International Management,Management,0,UNASSIGNED
+46,Astronomy,"Physics,Maths",44,AWAITING_APPROVAL
+47,Journalism,English,0,UNASSIGNED
+48,Politics,"English,History",0,UNASSIGNED
+49,Carnival Studies,"Dance,Dramatic Arts,Portuguese",48,APPROVED
+50,Wine Tasting,"Food Technology,Chemistry",40,AWAITING_APPROVAL
