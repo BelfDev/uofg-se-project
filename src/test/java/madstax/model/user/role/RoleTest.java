@@ -23,20 +23,20 @@ public class RoleTest {
     }
 
     @Test
-    @DisplayName("Permission should not be empty")
-    void shouldNotReturnEmptyPermissions() {
+    @DisplayName("Role permissions should not be empty")
+    void userPermissions_notEmpty() {
         assertFalse(userPermissions.isEmpty());
     }
 
     @Test
-    @DisplayName("Should have required permissions")
-    void shouldHaveRequiredPermissions() {
+    @DisplayName("Role should have required permissions")
+    void userPermissions_containRequiredPermissions() {
         assertTrue(userPermissions.contains(Permission.ADD_REQUIREMENT));
     }
 
     @Test
-    @DisplayName("Should not have unnecessary permissions")
-    void shouldHaveUnnecessaryPermissions() {
+    @DisplayName("Role should not have unnecessary permissions")
+    void userPermission_notContainExcessivePermissions() {
         assertFalse(userPermissions.contains(Permission.APPROVE_TEACHING_REQUEST));
     }
 
