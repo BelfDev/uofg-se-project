@@ -7,6 +7,11 @@ import madstax.view.screen.Screen;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class {@code ScreenController} is the base class for all screen controllers.
+ * It lays out the expected behavior and forces the implementation of NavigationBarListener.
+ * @param <T> the screen type to be controller by this ScreenController
+ */
 abstract class ScreenController<T extends Screen> implements NavigationBarListener {
 
     protected T screen;

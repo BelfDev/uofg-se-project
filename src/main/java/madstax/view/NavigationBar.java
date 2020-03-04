@@ -8,6 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * Class {@code NavigationBar} is the visual component which
+ * enables the user to navigate through the application.
+ */
 public class NavigationBar extends JPanel {
 
     private static final int NAV_BAR_HEIGHT = 44;

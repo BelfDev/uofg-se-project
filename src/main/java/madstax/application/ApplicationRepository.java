@@ -13,6 +13,10 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
+/**
+ * Class {@code ApplicationRepository} is the single source of all
+ * application data.
+ */
 public class ApplicationRepository {
 
     private static ApplicationRepository instance = null;
@@ -30,6 +34,11 @@ public class ApplicationRepository {
         this.coursePlanListItems = new ArrayList<>();
     }
 
+    /**
+     * Returns a single instance of ApplicationRepository.
+     *
+     * @return a unique instance of ApplicationRepository.
+     */
     public static ApplicationRepository getInstance() {
         if (instance == null) {
             instance = new ApplicationRepository();
@@ -46,6 +55,12 @@ public class ApplicationRepository {
         return result;
     }
 
+    /**
+     * Retrieves all teachers from the 'teachers.csv' file
+     * as a List of Teacher objects.
+     *
+     * @return a list of teachers.
+     */
     public List<Teacher> getTeachers() {
         if (teachers.isEmpty()) {
             teachers = ResourceIO.parseDataFromCSV("teachers", Teacher.class);
@@ -53,10 +68,21 @@ public class ApplicationRepository {
         return teachers;
     }
 
+    /**
+     * Converts the teachers list to a map
+     *
+     * @return a map of teachers index by their ids
+     */
     public Map<Integer, Teacher> getTeacherMap() {
         return teacherMap.get();
     }
 
+    /**
+     * Retrieves all course plan list items from the 'course-plan.csv' file
+     * as a list of CoursePlanListItem objects.
+     *
+     * @return a list of course plan list items
+     */
     public List<CoursePlanListItem> getCoursePlanListItems() {
         if (coursePlanListItems.isEmpty()) {
             coursePlanListItems = ResourceIO.parseDataFromCSV("course-plan", CoursePlanListItem.class);
@@ -64,6 +90,12 @@ public class ApplicationRepository {
         return coursePlanListItems;
     }
 
+    /**
+     * Updates the content of the 'course-plan.csv' file with the new
+     * course plan list.
+     *
+     * @param newList a list containing the modified course plan list items
+     */
     public void updateCoursePlanList(List<CoursePlanListItem> newList) {
         List<CoursePlanListItem> originalList = getCoursePlanListItems();
         if (!newList.isEmpty()) {
@@ -76,6 +108,9 @@ public class ApplicationRepository {
         }
     }
 
+    /**
+     * Fetches teachers and course plan data and stores as member variables
+     */
     public void prefetchAllData() {
         this.teachers = getTeachers();
         this.coursePlanListItems = getCoursePlanListItems();

@@ -9,9 +9,9 @@ import madstax.model.Teacher;
 import madstax.model.user.Permission;
 import madstax.model.user.User;
 import madstax.view.ConfirmationModal;
-import madstax.view.screen.CoursePlannerScreen;
 import madstax.view.editor.EditorToolbar;
 import madstax.view.editor.ModalEditor;
+import madstax.view.screen.CoursePlannerScreen;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
