@@ -4,6 +4,7 @@ import madstax.model.RequestStatus;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
@@ -11,9 +12,14 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")
 public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
+    private int selectedRow;
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+
+        if(isSelected){
+            selectedRow = row;
+        }
 
         String s;
         switch (col) {
@@ -28,8 +34,13 @@ public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
         }
 
         Component c = renderer.getTableCellRendererComponent(table, s,
-                isSelected, hasFocus, row, col);
+                isSelected, false, row, col);
         ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
+
+        if(row == selectedRow){
+            JComponent jc = (JComponent)c;
+            jc.setBorder(new MatteBorder(1,0,1,0, Color.BLUE));
+        }
 
         if(col == 4){
             switch((RequestStatus)value){
