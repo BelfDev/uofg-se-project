@@ -4,9 +4,11 @@ import madstax.model.CoursePlanListModel;
 import madstax.model.RequestStatus;
 import madstax.view.PlannerCellRenderer;
 import madstax.view.editor.EditorToolbar;
+import sun.swing.table.DefaultTableCellHeaderRenderer;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -31,6 +33,8 @@ public class CoursePlannerScreen extends Screen {
         table = new JTable();
         JScrollPane scrollablePane = new JScrollPane(table);
 
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(ArrayList.class, new PlannerCellRenderer());
         table.setDefaultRenderer(Integer.class, new PlannerCellRenderer());
         table.setDefaultRenderer(RequestStatus.class, new PlannerCellRenderer());
