@@ -101,7 +101,6 @@ public class CoursePlannerScreen extends Screen {
     }
 
     public int getSelectedRow() {
-        table.repaint();
         return table.getSelectedRow();
     }
 
