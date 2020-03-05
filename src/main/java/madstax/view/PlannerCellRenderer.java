@@ -12,14 +12,10 @@ import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")
 public class PlannerCellRenderer extends JLabel implements TableCellRenderer {
-    private int selectedRow;
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-
-        if(isSelected){
-            selectedRow = row;
-        }
+        int selectedRow = table.getSelectedRow();
 
         String s;
         switch (col) {
