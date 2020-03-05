@@ -65,13 +65,13 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {
+        int row = screen.getSelectedRow();
+        if (!e.getValueIsAdjusting() && row >= 0) {
             // If the user has selected the table manually
             if (!isEditModeEnabled) {
                 activateEditMode(false);
             }
 
-            int row = screen.getSelectedRow();
             CoursePlanListItem item = list.get(row);
             editorToolbar.setCourseLabelText(item.getCourse());
 
@@ -115,6 +115,7 @@ public class CoursePlannerController extends ScreenController<CoursePlannerScree
 
             editorToolbar.deactivate();
             isEditModeEnabled = false;
+            screen.clearTableSelection();
         } else {
             activateEditMode(true);
         }

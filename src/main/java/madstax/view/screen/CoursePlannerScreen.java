@@ -112,4 +112,10 @@ public class CoursePlannerScreen extends Screen {
         add(editorToolbar, BorderLayout.SOUTH);
     }
 
+    public void clearTableSelection() {
+        if (table.getSelectedRow() >= 0) {
+            table.clearSelection();
+        }
+    };
+
 }
